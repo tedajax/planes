@@ -10,6 +10,7 @@
 
 #include "types.h"
 #include "input.h"
+#include "textures.h"
 
 #define SDL_PRINT_ERROR printf("SDL_Error: %s\n", SDL_GetError());
 

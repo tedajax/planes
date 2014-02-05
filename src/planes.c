@@ -41,6 +41,8 @@ void game_render() {
 	SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(g_renderer);
 
+	SDL_RenderCopy(g_renderer, textures_get("ship"), NULL, NULL);
+
 	SDL_RenderPresent(g_renderer);
 }
 
@@ -73,6 +75,8 @@ bool window_init() {
 	g_screen = SDL_GetWindowSurface(g_window);
 
 	input_init();
+	textures_init();
+	textures_add("ship", texture_load("assets/ship.png"));
 
 	return true;
 }
