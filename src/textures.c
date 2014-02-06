@@ -1,4 +1,5 @@
 #include "textures.h"
+#include <SDL2/SDL.h>
 
 GHashTable *textureMap = NULL;
 

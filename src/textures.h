@@ -11,7 +11,7 @@
 #include <SDL2/SDL_image.h>
 
 #include "types.h"
-#include "planes.h"
+#include "globals.h"
 
 GHashTable *textureMap;
 

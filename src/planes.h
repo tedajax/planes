@@ -11,15 +11,9 @@
 #include "types.h"
 #include "input.h"
 #include "textures.h"
+#include "sprite.h"
 
-#define SDL_PRINT_ERROR printf("SDL_Error: %s\n", SDL_GetError());
-
-extern SDL_Renderer *g_renderer;
-extern SDL_Window *g_window;
-extern SDL_Surface *g_screen;
-
-extern const u32 SCREEN_WIDTH;
-extern const u32 SCREEN_HEIGHT;
+#include "globals.h"
 
 bool window_init();
 void window_destroy();
