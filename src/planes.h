@@ -12,6 +12,8 @@
 #include "input.h"
 #include "textures.h"
 #include "sprite.h"
+#include "entity.h"
+#include "component.h"
 
 #include "globals.h"
 

@@ -8,21 +8,24 @@ const u32 SCREEN_WIDTH = 640;
 const u32 SCREEN_HEIGHT = 480;
 
 bool gameRunning;
-Sprite *spriteTest = NULL;
+
+Entity *player;
 
 int main(int argc, char *argv[]) {
 	if (!window_init()) {
 		return 1;
 	}
 
-	spriteTest = sprite_new();
-	sprite_setTexture(spriteTest, "ship");
-	spriteTest->scale->y = 0.5f;
-
 	gameRunning = true;
 	SDL_Event sdlEvent;
 
 	u32 lastTickCount = 0;
+
+	player = entity_new(1);
+	Component *spriteComp = entity_addComponent(player, COMP_SPRITE_RENDERER);
+	CSpriteRenderer *sr = (CSpriteRenderer *)spriteComp->data;
+	sr->sprite = sprite_new();
+	sprite_setTexture(sr->sprite, "ship");
 
 	while (gameRunning) {
 		while(SDL_PollEvent(&sdlEvent) != 0) {
@@ -44,22 +47,6 @@ int main(int argc, char *argv[]) {
 }
 
 void game_update(f32 dt) {
-	if (input_key(SDL_SCANCODE_RIGHT)) {
-		spriteTest->position->x += 500 * dt;
-	}
-
-	if (input_key(SDL_SCANCODE_LEFT)) {
-		spriteTest->position->x -= 500 * dt;
-	}
-
-	if (input_key(SDL_SCANCODE_UP)) {
-		spriteTest->position->y -= 500 * dt;
-	}
-
-	if (input_key(SDL_SCANCODE_DOWN)) {
-		spriteTest->position->y += 500 * dt;	
-	}
-
 	//this should always be the last thing to update
 	input_update();
 }
@@ -68,7 +55,7 @@ void game_render() {
 	SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(g_renderer);
 
-	sprite_render(spriteTest);
+	entity_render(player);
 
 	SDL_RenderPresent(g_renderer);
 }
