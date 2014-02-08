@@ -34,19 +34,20 @@ void entity_render(Entity *self) {
 	}
 }
 
-Component *entity_addComponent(Entity *self, ComponentType type) {
+void *entity_addComponent(Entity *self, ComponentType type) {
 	Component *c = component_new(type);
+	c->entity = self;
 	g_ptr_array_add(self->components, c);
 
-	return c;
+	return c->component;
 }
 
-Component *entity_getComponent(Entity *self, ComponentType type) {
+void *entity_getComponent(Entity *self, ComponentType type) {
 	for (int i = 0; i < self->components->len; ++i) {
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 
 		if (c->type == type) {
-			return c;
+			return c->component;
 		}
 	}
 

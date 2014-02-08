@@ -21,8 +21,8 @@ void entity_start(Entity *self);
 void entity_update(Entity *self, f32 dt);
 void entity_render(Entity *self);
 
-Component *entity_addComponent(Entity *self, ComponentType type);
-Component *entity_getComponent(Entity *self, ComponentType type);
+void *entity_addComponent(Entity *self, ComponentType type);
+void *entity_getComponent(Entity *self, ComponentType type);
 bool entity_removeComponent(Entity *self, Component *component);
 
 #endif

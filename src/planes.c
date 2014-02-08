@@ -22,9 +22,11 @@ int main(int argc, char *argv[]) {
 	u32 lastTickCount = 0;
 
 	player = entity_new(1);
-	Component *spriteComp = entity_addComponent(player, COMP_SPRITE_RENDERER);
-	CSpriteRenderer *sr = (CSpriteRenderer *)spriteComp->data;
-	sr->sprite = sprite_new();
+	CTransform *tx = (CTransform *)entity_addComponent(player, C_TRANSFORM);
+	tx->position->x = 200;
+	tx->position->y = 200;
+	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
+		C_SPRITE_RENDERER);
 	sprite_setTexture(sr->sprite, "ship");
 
 	while (gameRunning) {
@@ -47,6 +49,8 @@ int main(int argc, char *argv[]) {
 }
 
 void game_update(f32 dt) {
+	entity_update(player, dt);
+
 	//this should always be the last thing to update
 	input_update();
 }
