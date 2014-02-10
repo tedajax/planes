@@ -25,6 +25,11 @@ void entity_update(Entity *self, f32 dt) {
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 		component_update(c, dt);
 	}
+
+	for (int i = 0; i < self->components->len; ++i) {
+		Component *c = (Component *)g_ptr_array_index(self->components, i);
+		component_lateUpdate(c, dt);
+	}
 }
 
 void entity_render(Entity *self) {
@@ -37,6 +42,7 @@ void entity_render(Entity *self) {
 void *entity_addComponent(Entity *self, ComponentType type) {
 	Component *c = component_new(type);
 	c->entity = self;
+	component_start(c);
 	g_ptr_array_add(self->components, c);
 
 	return c->component;

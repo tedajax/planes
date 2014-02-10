@@ -27,6 +27,7 @@ int main(int argc, char *argv[]) {
 	tx->position->y = 200;
 	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
 		C_SPRITE_RENDERER);
+	entity_addComponent(player, C_PLAYER_CONTROLLER);
 	sprite_setTexture(sr->sprite, "ship");
 
 	while (gameRunning) {
