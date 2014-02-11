@@ -13,7 +13,7 @@
 #include "textures.h"
 #include "sprite.h"
 #include "entity.h"
-#include "component.h"
+#include "components.h"
 
 #include "globals.h"
 

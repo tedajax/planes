@@ -4,8 +4,8 @@ SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
 
-const u32 SCREEN_WIDTH = 640;
-const u32 SCREEN_HEIGHT = 480;
+const u32 SCREEN_WIDTH = 1280;
+const u32 SCREEN_HEIGHT = 720;
 
 bool gameRunning;
 
