@@ -22,6 +22,9 @@ void entity_start(Entity *self) {
 
 void entity_update(Entity *self, f32 dt) {
 	for (int i = 0; i < self->components->len; ++i) {
+		if (self->components == NULL) {
+			printf("what\n");
+		}
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 		component_update(c, dt);
 	}

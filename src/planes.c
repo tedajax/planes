@@ -24,11 +24,11 @@ int main(int argc, char *argv[]) {
 	player = entity_new(1);
 	CTransform *tx = (CTransform *)entity_addComponent(player, C_TRANSFORM);
 	tx->position->x = 200;
-	tx->position->y = 200;
+	tx->position->y = SCREEN_HEIGHT / 2;
 	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
 		C_SPRITE_RENDERER);
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
-	sprite_setTexture(sr->sprite, "ship");
+	sprite_setTexture(sr->sprite, "eship1_black");
 
 	while (gameRunning) {
 		while(SDL_PollEvent(&sdlEvent) != 0) {
@@ -95,7 +95,11 @@ bool window_init() {
 
 	input_init();
 	textures_init();
-	textures_add("ship", texture_load("assets/ship.png"));
+
+	ResourceMap *rmap = resourceMap_new("assets/images.rmap");
+	resourceMap_load(rmap);
+	textures_loadRMap(rmap);
+	resourceMap_free(rmap);
 
 	return true;
 }

@@ -8,6 +8,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "resourcemap.h"
 #include "types.h"
 #include "input.h"
 #include "textures.h"

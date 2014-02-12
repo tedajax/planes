@@ -12,6 +12,7 @@
 
 #include "types.h"
 #include "globals.h"
+#include "resourcemap.h"
 
 GHashTable *textureMap;
 
@@ -19,6 +20,7 @@ void textures_init();
 void textures_destroy();
 void textures_add(const char *name, SDL_Texture *texture);
 void textures_remove(const char *name);
+void textures_loadRMap(ResourceMap *rmap);
 SDL_Texture *textures_get(const char *name);
 
 SDL_Texture *texture_load(const char *filename);

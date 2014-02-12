@@ -22,6 +22,21 @@ void textures_add(const char *name, SDL_Texture *texture) {
 	g_hash_table_insert(textureMap, (gpointer)name, texture);
 }
 
+void textures_loadRMap(ResourceMap *rmap) {
+	assert(rmap);
+
+	for (int i = 0; i < rmap->resources->len; ++i) {
+		RMapNode *node = g_ptr_array_index(rmap->resources, i);
+
+		SDL_Texture *tex = texture_load(node->value);
+		if (tex) {
+			char *name = (char *)malloc(sizeof(char) * MAX_RESOURCE_KEY_LENGTH);
+			strcpy(name, node->key);
+			textures_add(name, tex);
+		}
+	}
+}
+
 void textures_remove(const char *name) {
 	g_hash_table_remove(textureMap, name);
 }
