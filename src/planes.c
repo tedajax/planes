@@ -30,6 +30,9 @@ int main(int argc, char *argv[]) {
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
 	sprite_setTexture(sr->sprite, "eship1_black");
 
+	u32 secondCounter = 0;
+	u32 framesCounted = 0;
+
 	while (gameRunning) {
 		while(SDL_PollEvent(&sdlEvent) != 0) {
 			app_handle_event(sdlEvent);
@@ -37,11 +40,21 @@ int main(int argc, char *argv[]) {
 
 		u32 ticks = SDL_GetTicks();
 		u32 delta = ticks - lastTickCount;
+
 		f32 dt = delta / 1000.0f;
 		lastTickCount = ticks;
 
 		game_update(dt);
 		game_render();
+
+		++framesCounted;
+		secondCounter += delta;
+
+		if (secondCounter >= 1000) {
+			printf("FPS: %d\n", framesCounted);
+			secondCounter -= 1000;
+			framesCounted = 0;
+		}
 	}
 
 	window_destroy();
