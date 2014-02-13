@@ -1,20 +1,22 @@
 #include "components.h"
 
-CPlayerController *c_playerController_new(Component *super) {
+void *c_playerController_new(Component *super) {
 	size_t pcSize = sizeof(CPlayerController);
 	CPlayerController *newPC = (CPlayerController *)malloc(pcSize);
 
 	newPC->super = super;
 	newPC->speed = 500;
 
-	return newPC;
+	return (void *)newPC;
 }
 
-void c_playerController_start(CPlayerController *self) {
+void c_playerController_start(void *pself) {
 
 }
 
-void c_playerController_update(CPlayerController *self, f32 dt) {
+void c_playerController_update(void *pself, f32 dt) {
+	CPlayerController *self = (CPlayerController *)pself;
+
 	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
 		C_TRANSFORM);
 
@@ -41,10 +43,10 @@ void c_playerController_update(CPlayerController *self, f32 dt) {
 	}
 }
 
-void c_playerController_lateUpdate(CPlayerController *self, f32 dt) {
+void c_playerController_lateUpdate(void *pself, f32 dt) {
 
 }
 
-void c_playerController_render(CPlayerController *self) {
+void c_playerController_render(void *pself) {
 
 }

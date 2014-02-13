@@ -30,7 +30,7 @@ void textures_loadRMap(ResourceMap *rmap) {
 
 		SDL_Texture *tex = texture_load(node->value);
 		if (tex) {
-			char *name = (char *)malloc(sizeof(char) * MAX_RESOURCE_KEY_LENGTH);
+			char *name = (char *)malloc(MAX_RESOURCE_KEY_LENGTH);
 			strcpy(name, node->key);
 			textures_add(name, tex);
 		}

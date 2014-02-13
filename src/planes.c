@@ -114,6 +114,8 @@ bool window_init() {
 	textures_loadRMap(rmap);
 	resourceMap_free(rmap);
 
+	components_initialize();
+
 	return true;
 }
 

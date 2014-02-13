@@ -1,6 +1,6 @@
 #include "components.h"
 
-CTransform *c_transform_new(Component *super) {
+void *c_transform_new(Component *super) {
 	CTransform *newTx = (CTransform *)malloc(sizeof(CTransform));
 
 	newTx->super = super;
@@ -10,18 +10,20 @@ CTransform *c_transform_new(Component *super) {
 	newTx->velocity = vec2_new(0, 0);
 	newTx->angularVelocity = 0;
 
-	return newTx;
+	return (void *)newTx;
 }
 
-void c_transform_start(CTransform *self) {
+void c_transform_start(void *pself) {
 
 }
 
-void c_transform_update(CTransform *self, f32 dt) {
+void c_transform_update(void *pself, f32 dt) {
 	
 }
 
-void c_transform_lateUpdate(CTransform *self, f32 dt) {
+void c_transform_lateUpdate(void *pself, f32 dt) {
+	CTransform *self = (CTransform *)pself;
+
 	Vec2 timedVelocity;
 	vec2_mul(&timedVelocity, self->velocity, dt);
 	vec2_add(self->position, self->position, &timedVelocity);
@@ -29,6 +31,6 @@ void c_transform_lateUpdate(CTransform *self, f32 dt) {
 	self->rotation += self->angularVelocity * dt;
 }
 
-void c_transform_render(CTransform *self) {
+void c_transform_render(void *pself) {
 
 }

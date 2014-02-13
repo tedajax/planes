@@ -4,27 +4,17 @@
 #include "c_spriterenderer.h"
 
 Component *component_new(ComponentType type) {
-	Component *newComponent = (Component *)malloc(sizeof(Component));
+	Component *newComp = (Component *)malloc(sizeof(Component));
 
-	newComponent->type = type;
-	newComponent->enabled = true;
-	newComponent->component = NULL;
+	newComp->type = type;
+	newComp->enabled = true;
+	newComp->component = NULL;
 
-	switch (type) {
-		case C_TRANSFORM:
-			newComponent->component = c_transform_new(newComponent);
-			break;
-
-		case C_SPRITE_RENDERER:
-			newComponent->component = c_spriteRenderer_new(newComponent);
-			break;
-
-		case C_PLAYER_CONTROLLER:
-			newComponent->component = c_playerController_new(newComponent);
-			break;
+	if (componentFuncs[type].newFunction != NULL) {
+		newComp->component = componentFuncs[type].newFunction(newComp);
 	}
 
-	return newComponent;
+	return newComp;
 }
 
 void component_start(Component *self) {
@@ -32,18 +22,8 @@ void component_start(Component *self) {
 		return;
 	}
 
-	switch (self->type) {
-		case C_TRANSFORM:
-			c_transform_start((CTransform *)self->component);
-			break;
-
-		case C_SPRITE_RENDERER:
-			c_spriteRenderer_start((CSpriteRenderer *)self->component);
-			break;
-
-		case C_PLAYER_CONTROLLER:
-			c_playerController_start((CPlayerController *)self->component);
-			break;
+	if (componentFuncs[self->type].startFunction != NULL) {
+		componentFuncs[self->type].startFunction(self->component);
 	}
 }
 
@@ -52,18 +32,8 @@ void component_update(Component *self, f32 dt) {
 		return;
 	}
 
-	switch (self->type) {
-		case C_TRANSFORM:
-			c_transform_update((CTransform *)self->component, dt);
-			break;
-
-		case C_SPRITE_RENDERER:
-			c_spriteRenderer_update((CSpriteRenderer *)self->component, dt);
-			break;
-
-		case C_PLAYER_CONTROLLER:
-			c_playerController_update((CPlayerController *)self->component, dt);
-			break;
+	if (componentFuncs[self->type].updateFunction != NULL) {
+		componentFuncs[self->type].updateFunction(self->component, dt);
 	}
 }
 
@@ -72,20 +42,9 @@ void component_lateUpdate(Component *self, f32 dt) {
 		return;
 	}
 
-	switch (self->type) {
-		case C_TRANSFORM:
-			c_transform_lateUpdate((CTransform *)self->component, dt);
-			break;
-
-		case C_SPRITE_RENDERER:
-			c_spriteRenderer_lateUpdate((CSpriteRenderer *)self->component, dt);
-			break;
-
-		case C_PLAYER_CONTROLLER:
-			c_playerController_lateUpdate((CPlayerController *)self->component,
-				dt);
-			break;
-	}	
+	if (componentFuncs[self->type].lateUpdateFunction != NULL) {
+		componentFuncs[self->type].lateUpdateFunction(self->component, dt);
+	}
 }
 
 void component_render(Component *self) {
@@ -93,18 +52,40 @@ void component_render(Component *self) {
 		return;
 	}
 
-	switch (self->type) {
-		case C_TRANSFORM:
-			c_transform_render((CTransform *)self->component);
-			break;
-
-		case C_SPRITE_RENDERER:
-			c_spriteRenderer_render((CSpriteRenderer *)self->component);
-			break;
-
-		case C_PLAYER_CONTROLLER:
-			c_playerController_render((CPlayerController *)self->component);
-			break;
+	if (componentFuncs[self->type].renderFunction != NULL) {
+		componentFuncs[self->type].renderFunction(self->component);
 	}
 }
 
+ComponentFunctions componentFuncs[COMPONENT_COUNT];
+
+void components_initialize() {
+	for (int i = 0; i < COMPONENT_COUNT; ++i) {
+		componentFuncs[i].newFunction = NULL;
+		componentFuncs[i].startFunction= NULL;
+		componentFuncs[i].updateFunction = NULL;
+		componentFuncs[i].lateUpdateFunction = NULL;
+		componentFuncs[i].renderFunction = NULL;
+	}
+
+	C_REGISTER(C_TRANSFORM,
+		&c_transform_new,
+		&c_transform_start,
+		&c_transform_update,
+		&c_transform_lateUpdate,
+		&c_transform_render)
+
+	C_REGISTER(C_SPRITE_RENDERER,
+		&c_spriteRenderer_new,
+		&c_spriteRenderer_start,
+		&c_spriteRenderer_update,
+		&c_spriteRenderer_lateUpdate,
+		&c_spriteRenderer_render)
+
+	C_REGISTER(C_PLAYER_CONTROLLER,
+		&c_playerController_new,
+		&c_playerController_start,
+		&c_playerController_update,
+		&c_playerController_lateUpdate,
+		&c_playerController_render)
+}

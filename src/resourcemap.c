@@ -49,8 +49,8 @@ void resourceMap_free(ResourceMap *self) {
 		free(node->value);
 		node->key = NULL;
 		node->value = NULL;
+		free(node);
 	}
-
 	g_ptr_array_free(self->resources, TRUE);
 	g_free(self->resources);
 }

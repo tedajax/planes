@@ -10,10 +10,10 @@ typedef struct cplayer_controller_t {
 	f32 speed;
 } CPlayerController;
 
-CPlayerController *c_playerController_new(struct component_t *super);
-void c_playerController_start(CPlayerController *self);
-void c_playerController_update(CPlayerController *self, f32 dt);
-void c_playerController_lateUpdate(CPlayerController *self, f32 dt);
-void c_playerController_render(CPlayerController *self);
+void *c_playerController_new(struct component_t *super);
+void c_playerController_start(void *pself);
+void c_playerController_update(void *pself, f32 dt);
+void c_playerController_lateUpdate(void *pself, f32 dt);
+void c_playerController_render(void *pself);
 
 #endif

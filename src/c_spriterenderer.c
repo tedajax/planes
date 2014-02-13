@@ -1,27 +1,29 @@
 #include "components.h"
 
-CSpriteRenderer *c_spriteRenderer_new(Component *super) {
+void *c_spriteRenderer_new(Component *super) {
 	CSpriteRenderer *newSR = (CSpriteRenderer *)malloc(sizeof(CSpriteRenderer));
 
 	newSR->super = super;
 	newSR->sprite = sprite_new();
 
-	return newSR;
+	return (void *)newSR;
 }
 
-void c_spriteRenderer_start(CSpriteRenderer *self) {
-
-}
-
-void c_spriteRenderer_update(CSpriteRenderer *self, f32 dt) {
+void c_spriteRenderer_start(void *pself) {
 
 }
 
-void c_spriteRenderer_lateUpdate(CSpriteRenderer *self, f32 dt) {
+void c_spriteRenderer_update(void *pself, f32 dt) {
 
 }
 
-void c_spriteRenderer_render(CSpriteRenderer *self) {
+void c_spriteRenderer_lateUpdate(void *pself, f32 dt) {
+
+}
+
+void c_spriteRenderer_render(void *pself) {
+	CSpriteRenderer *self = (CSpriteRenderer *)pself;
+
 	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
 		C_TRANSFORM);
 

@@ -14,11 +14,11 @@ typedef struct csprite_renderer_t {
 	Sprite *sprite;
 } CSpriteRenderer;
 
-CSpriteRenderer *c_spriteRenderer_new(struct component_t *super);
-void c_spriteRenderer_start(CSpriteRenderer *self);
-void c_spriteRenderer_update(CSpriteRenderer *self, f32 dt);
-void c_spriteRenderer_lateUpdate(CSpriteRenderer *self, f32 dt);
-void c_spriteRenderer_render(CSpriteRenderer *self);
+void *c_spriteRenderer_new(struct component_t *super);
+void c_spriteRenderer_start(void *pself);
+void c_spriteRenderer_update(void *pself, f32 dt);
+void c_spriteRenderer_lateUpdate(void *pself, f32 dt);
+void c_spriteRenderer_render(void *pself);
 
 
 #endif
