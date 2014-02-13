@@ -39,8 +39,8 @@ typedef struct sprite_t {
 Sprite *sprite_new();
 void sprite_setTexture(Sprite *self, const char *textureName);
 void sprite_render(Sprite *self);
-SDL_Rect *sprite_getDstRect(const Sprite *self, SDL_Rect *out);
-SDL_Point *sprite_getOrigin(const Sprite *self, SDL_Point *out);
+SDL_Rect *_sprite_getDstRect(const Sprite *self, SDL_Rect *out);
+SDL_Point *_sprite_getOrigin(const Sprite *self, SDL_Point *out);
 f32 sprite_getWidth(const Sprite *self);
 f32 sprite_getHeight(const Sprite *self);
 

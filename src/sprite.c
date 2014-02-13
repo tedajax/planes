@@ -34,11 +34,11 @@ void sprite_render(Sprite *self) {
 	assert(self);
 
 	if (self->texture) {
-		SDL_Rect dst;
-		sprite_getDstRect(self, &dst);
-
 		SDL_Point center;
-		sprite_getOrigin(self, &center);
+		_sprite_getOrigin(self, &center);
+
+		SDL_Rect dst;
+		_sprite_getDstRect(self, &dst);		
 
 		SDL_RenderCopyEx(g_renderer,
 			self->texture,
@@ -50,18 +50,21 @@ void sprite_render(Sprite *self) {
 	}
 }
 
-SDL_Rect *sprite_getDstRect(const Sprite *self, SDL_Rect *out) {
+SDL_Rect *_sprite_getDstRect(const Sprite *self, SDL_Rect *out) {
 	assert(self);
 
-	out->x = self->position->x;
-	out->y = self->position->y;
+	SDL_Point center;
+	_sprite_getOrigin(self, &center);
+
+	out->x = self->position->x - center.x * self->scale->x;
+	out->y = self->position->y - center.y * self->scale->y;
 	out->w = self->width * self->scale->x;
 	out->h = self->height * self->scale->y;
 
 	return out;
 }
 
-SDL_Point *sprite_getOrigin(const Sprite *self, SDL_Point *out) {
+SDL_Point *_sprite_getOrigin(const Sprite *self, SDL_Point *out) {
 	assert(self);
 
 	f32 w = sprite_getWidth(self);

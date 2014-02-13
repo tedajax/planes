@@ -21,6 +21,7 @@ int main(int argc, char *argv[]) {
 
 	u32 lastTickCount = 0;
 
+	STUBBED("Build entity management system and dont explicitly create player");
 	player = entity_new(1);
 	CTransform *tx = (CTransform *)entity_addComponent(player, C_TRANSFORM);
 	tx->position->x = 200;

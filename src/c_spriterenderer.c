@@ -5,6 +5,7 @@ void *c_spriteRenderer_new(Component *super) {
 
 	newSR->super = super;
 	newSR->sprite = sprite_new();
+	newSR->sprite->origin = CENTER;
 
 	return (void *)newSR;
 }
@@ -31,6 +32,8 @@ void c_spriteRenderer_render(void *pself) {
 		self->sprite->position->x = tx->position->x;
 		self->sprite->position->y = tx->position->y;
 		self->sprite->rotation = tx->rotation;
+		self->sprite->scale->x = tx->scale->x;
+		self->sprite->scale->y = tx->scale->y;
 	}
 
 	sprite_render(self->sprite);

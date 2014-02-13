@@ -1,6 +1,7 @@
 #ifndef _GLOBALS_H_
 #define _GLOBALS_H_
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>

@@ -20,8 +20,11 @@ void c_playerController_start(void *pself) {
 }
 
 void c_playerController_update(void *pself, f32 dt) {
-	CPlayerController *self = (CPlayerController *)pself;
+	C_SELF(CPlayerController);
+	_playerController_movementControls(self);
+}
 
+void _playerController_movementControls(CPlayerController *self) {
 	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
 		C_TRANSFORM);
 
@@ -50,7 +53,10 @@ void c_playerController_update(void *pself, f32 dt) {
 
 void c_playerController_lateUpdate(void *pself, f32 dt) {
 	C_SELF(CPlayerController)
+	_playerController_checkBounds(self);
+}
 
+void _playerController_checkBounds(CPlayerController *self) {
 	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
 		C_TRANSFORM);
 
@@ -76,5 +82,8 @@ void c_playerController_lateUpdate(void *pself, f32 dt) {
 }
 
 void c_playerController_render(void *pself) {
+	C_SELF(CPlayerController);
 
+	SDL_SetRenderDrawColor(g_renderer, 255, 255, 0, 255);
+	SDL_RenderDrawRect(g_renderer, &self->bounds);
 }
