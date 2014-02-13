@@ -6,7 +6,7 @@ Entity *entity_new(i32 id) {
 	Entity *newEntity = (Entity *)malloc(sizeof(Entity));
 
 	newEntity->id = id;
-	newEntity->enabled = true;
+	newEntity->enabled = false;
 	//todo: GDestroyNotify function for freeing components
 	newEntity->components = g_ptr_array_sized_new(STARTING_COMPONENT_CAPACITY);
 
@@ -14,6 +14,7 @@ Entity *entity_new(i32 id) {
 }
 
 void entity_start(Entity *self) {
+	self->enabled = true;
 	for (int i = 0; i < self->components->len; ++i) {
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 		component_start(c);
@@ -21,6 +22,10 @@ void entity_start(Entity *self) {
 }
 
 void entity_update(Entity *self, f32 dt) {
+	if (!self->enabled) {
+		return;
+	}
+
 	for (int i = 0; i < self->components->len; ++i) {
 		if (self->components == NULL) {
 			printf("what\n");
@@ -36,6 +41,10 @@ void entity_update(Entity *self, f32 dt) {
 }
 
 void entity_render(Entity *self) {
+	if (!self->enabled) {
+		return;
+	}
+	
 	for (int i = 0; i < self->components->len; ++i) {
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 		component_render(c);
@@ -45,7 +54,9 @@ void entity_render(Entity *self) {
 void *entity_addComponent(Entity *self, ComponentType type) {
 	Component *c = component_new(type);
 	c->entity = self;
-	component_start(c);
+	if (self->enabled) {
+		component_start(c);
+	}
 	g_ptr_array_add(self->components, c);
 
 	return c->component;

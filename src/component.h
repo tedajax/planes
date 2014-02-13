@@ -49,11 +49,13 @@ typedef struct component_functions_t {
 extern ComponentFunctions componentFuncs[COMPONENT_COUNT];
 void components_initialize();
 
-#define C_REGISTER(t, n, s, u, lu, r) \
-	componentFuncs[t].newFunction = n; \
-	componentFuncs[t].startFunction = s; \
-	componentFuncs[t].updateFunction = u; \
-	componentFuncs[t].lateUpdateFunction = lu; \
-	componentFuncs[t].renderFunction = r;
+#define C_REGISTER(type, name) \
+	componentFuncs[type].newFunction = &c_##name##_new; \
+	componentFuncs[type].startFunction = &c_##name##_start; \
+	componentFuncs[type].updateFunction = &c_##name##_update; \
+	componentFuncs[type].lateUpdateFunction = &c_##name##_lateUpdate; \
+	componentFuncs[type].renderFunction = &c_##name##_render;
+
+#define C_SELF(x) x *self = (x *)pself;
 
 #endif

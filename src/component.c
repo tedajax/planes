@@ -60,32 +60,7 @@ void component_render(Component *self) {
 ComponentFunctions componentFuncs[COMPONENT_COUNT];
 
 void components_initialize() {
-	for (int i = 0; i < COMPONENT_COUNT; ++i) {
-		componentFuncs[i].newFunction = NULL;
-		componentFuncs[i].startFunction= NULL;
-		componentFuncs[i].updateFunction = NULL;
-		componentFuncs[i].lateUpdateFunction = NULL;
-		componentFuncs[i].renderFunction = NULL;
-	}
-
-	C_REGISTER(C_TRANSFORM,
-		&c_transform_new,
-		&c_transform_start,
-		&c_transform_update,
-		&c_transform_lateUpdate,
-		&c_transform_render)
-
-	C_REGISTER(C_SPRITE_RENDERER,
-		&c_spriteRenderer_new,
-		&c_spriteRenderer_start,
-		&c_spriteRenderer_update,
-		&c_spriteRenderer_lateUpdate,
-		&c_spriteRenderer_render)
-
-	C_REGISTER(C_PLAYER_CONTROLLER,
-		&c_playerController_new,
-		&c_playerController_start,
-		&c_playerController_update,
-		&c_playerController_lateUpdate,
-		&c_playerController_render)
+	C_REGISTER(C_TRANSFORM, transform)
+	C_REGISTER(C_SPRITE_RENDERER, spriteRenderer)
+	C_REGISTER(C_PLAYER_CONTROLLER, playerController)
 }

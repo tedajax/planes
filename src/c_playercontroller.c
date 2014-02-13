@@ -11,7 +11,12 @@ void *c_playerController_new(Component *super) {
 }
 
 void c_playerController_start(void *pself) {
+	C_SELF(CPlayerController)
 
+	self->bounds.x = 50;
+	self->bounds.y = 50;
+	self->bounds.w = 500;
+	self->bounds.h = 400;
 }
 
 void c_playerController_update(void *pself, f32 dt) {
@@ -44,7 +49,30 @@ void c_playerController_update(void *pself, f32 dt) {
 }
 
 void c_playerController_lateUpdate(void *pself, f32 dt) {
+	C_SELF(CPlayerController)
 
+	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
+		C_TRANSFORM);
+
+	if (tx) {
+		i32 left = self->bounds.x;
+		i32 right = self->bounds.x + self->bounds.w;
+		i32 top = self->bounds.y;
+		i32 bottom = self->bounds.y + self->bounds.h;
+
+		if (tx->position->x < left) {
+			tx->position->x = left;
+		}
+		if (tx->position->x > right) {
+			tx->position->x = right;
+		}
+		if (tx->position->y < top) {
+			tx->position->y = top;
+		}
+		if (tx->position->y > bottom) {
+			tx->position->y = bottom;
+		}
+	}
 }
 
 void c_playerController_render(void *pself) {

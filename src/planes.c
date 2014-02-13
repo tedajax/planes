@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
 		C_SPRITE_RENDERER);
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
 	sprite_setTexture(sr->sprite, "eship1_black");
+	entity_start(player);
 
 	u32 secondCounter = 0;
 	u32 framesCounted = 0;
