@@ -14,10 +14,6 @@ typedef struct ctransform_t {
 	f32 angularVelocity;
 } CTransform;
 
-void *c_transform_new(Component *super);
-void c_transform_start(void *pself);
-void c_transform_update(void *pself, f32 dt);
-void c_transform_lateUpdate(void *pself, f32 dt);
-void c_transform_render(void *pself);
+C_DECLARE(transform)
 
 #endif

@@ -26,7 +26,7 @@ i32 indexStack_pop(IndexStack *self) {
 	return self->indices[self->head--];
 }
 
-void indexStack_push(indexStack *self, u32 index) {
+void indexStack_push(IndexStack *self, u32 index) {
 	if (self->head >= self->capacity) {
 		STUBBED("reached maximum capcity of array, resize it");
 		return;
@@ -35,7 +35,7 @@ void indexStack_push(indexStack *self, u32 index) {
 	self->indices[++self->head] = index;
 }
 
-void indexStack_free(indexStack *self) {
+void indexStack_free(IndexStack *self) {
 	free(self->indices);
 	free(self);
 }

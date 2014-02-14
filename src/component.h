@@ -56,6 +56,13 @@ void components_initialize();
 	componentFuncs[type].lateUpdateFunction = &c_##name##_lateUpdate; \
 	componentFuncs[type].renderFunction = &c_##name##_render;
 
+#define C_DECLARE(name) \
+	void *c_##name##_new(struct component_t *super); \
+	void c_##name##_start(void *pself); \
+	void c_##name##_update(void *pself, f32 dt); \
+	void c_##name##_lateUpdate(void *pself, f32 dt); \
+	void c_##name##_render(void *pself);
+
 #define C_SELF(x) x *self = (x *)pself;
 
 #endif
