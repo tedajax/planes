@@ -28,7 +28,6 @@ i32 indexStack_pop(IndexStack *self) {
 
 void indexStack_push(IndexStack *self, u32 index) {
 	if (self->head >= self->capacity) {
-		STUBBED("reached maximum capcity of array, resize it");
 		return;
 	}
 
