@@ -10,6 +10,8 @@ struct component_t;
 typedef struct cplayer_controller_t {
 	struct component_t *super;
 	f32 speed;
+	i32 width;
+	i32 height;
 	SDL_Rect bounds;
 } CPlayerController;
 

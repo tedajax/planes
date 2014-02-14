@@ -13,10 +13,17 @@ void *c_playerController_new(Component *super) {
 void c_playerController_start(void *pself) {
 	C_SELF(CPlayerController)
 
-	self->bounds.x = 50;
-	self->bounds.y = 50;
+	void *pSR = entity_getComponent(self->super->entity, C_SPRITE_RENDERER);
+	if (pSR) {
+		CSpriteRenderer *sr = (CSpriteRenderer *)pSR;
+		self->width = sr->sprite->width;
+		self->height = sr->sprite->height;
+	}
+
+	self->bounds.x = (self->width / 2) + 5;
+	self->bounds.y = (self->height / 2) + 5;
 	self->bounds.w = 500;
-	self->bounds.h = 400;
+	self->bounds.h = 500;
 }
 
 void c_playerController_update(void *pself, f32 dt) {
@@ -85,5 +92,11 @@ void c_playerController_render(void *pself) {
 	C_SELF(CPlayerController);
 
 	SDL_SetRenderDrawColor(g_renderer, 255, 255, 0, 255);
-	SDL_RenderDrawRect(g_renderer, &self->bounds);
+	SDL_Rect boundary = {
+		self->bounds.x - self->width / 2,
+		self->bounds.y - self->height / 2,
+		self->bounds.w + self->width,
+		self->bounds.h + self->height
+	};
+	SDL_RenderDrawRect(g_renderer, &boundary);
 }
