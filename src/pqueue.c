@@ -1,4 +1,5 @@
 #include "pqueue.h"
+#include <stdio.h>
 
 PQueue *pqueue_new(u32 capacity, priority_f priorityF) {
 	PQueue *self = (PQueue *)malloc(sizeof(PQueue));
@@ -20,7 +21,7 @@ void _pqueue_resize(PQueue *self, u32 capacity) {
 	}
 	self->capacity = capacity;
 
-	self->data = realloc(self->data, self->capacity); 
+	self->data = realloc(self->data, self->capacity * sizeof(void *)); 
 }
 
 void pqueue_push(PQueue *self, void *element) {

@@ -17,7 +17,6 @@ typedef struct sprite_mngr_t {
 SpriteMngr *spriteMngr_new();
 void spriteMngr_push(SpriteMngr *self, struct sprite_t *sprite);
 void spriteMngr_flush(SpriteMngr *self);
-void spriteMngr_renderSprite(SpriteMngr *self, struct sprite_t *sprite);
 
 i32 sprite_getPriority(void *s1);
 

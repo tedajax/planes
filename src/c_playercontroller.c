@@ -7,7 +7,6 @@ void *c_playerController_new(Component *super) {
 	CPlayerController *self = (CPlayerController *)malloc(pcSize);
 
 	self->super = super;
-	self->speed = 500;
 
 	return (void *)self;
 }
@@ -22,12 +21,14 @@ void c_playerController_start(void *pself) {
 		self->height = sr->sprite->height;
 	}
 
+	self->speed = 500;
+
 	self->movementBounds.x = (self->width / 2) + 5;
 	self->movementBounds.y = (self->height / 2) + 5;
 	self->movementBounds.w = 500;
 	self->movementBounds.h = 500;
 
-	self->fireDelay = 0.2f;
+	self->fireDelay = 0.05f;
 	self->fireTimer = 0.0f;
 }
 
