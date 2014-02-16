@@ -6,7 +6,7 @@ EntityManager *entityManager_new() {
 
 	self->currentId = 1;
 	self->addMode = IMMEDIATE;
-	self->entities = g_ptr_array_sized_new(128);
+	self->entities = dynArr_new(128);
 	self->addQueue = g_queue_new();
 	self->removeQueue = g_queue_new();
 
@@ -14,8 +14,8 @@ EntityManager *entityManager_new() {
 }
 
 void entityManager_start(EntityManager *self) {
-	for (int i = 0; i < self->entities->len; ++i) {
-		Entity *e = (Entity *)g_ptr_array_index(self->entities, i);
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
 		if (e) {
 			entity_start(e);
 		}
@@ -25,15 +25,15 @@ void entityManager_start(EntityManager *self) {
 }
 
 void entityManager_update(EntityManager *self, f32 dt) {
-	for (int i = 0; i < self->entities->len; ++i) {
-		Entity *e = (Entity *)g_ptr_array_index(self->entities, i);
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
 		if (e) {
 			entity_update(e, dt);
 		}
 	}
 
-	for (int i = 0; i < self->entities->len; ++i) {
-		Entity *e = (Entity *)g_ptr_array_index(self->entities, i);
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
 		if (e) {
 			entity_lateUpdate(e, dt);
 
@@ -45,33 +45,40 @@ void entityManager_update(EntityManager *self, f32 dt) {
 
 	void *ptrEntity = g_queue_pop_head(self->removeQueue);
 	while (ptrEntity != NULL) {
-		g_ptr_array_remove(self->entities, ptrEntity);
+		dynArr_remove(self->entities, ptrEntity);
 		ptrEntity = g_queue_pop_head(self->removeQueue);
 	}
 
 	void *ptrAddEntity = g_queue_pop_head(self->addQueue);
 	while (ptrAddEntity != NULL) {
-		g_ptr_array_add(self->entities, ptrAddEntity);
-		entity_start((Entity *)ptrAddEntity);
+		_entityManager_addEntity(self, (Entity *)ptrAddEntity);
 		ptrAddEntity = g_queue_pop_head(self->addQueue);
 	}
 }
 
 void entityManager_render(EntityManager *self) {
-	for (int i = 0; i < self->entities->len; ++i) {
-		Entity *e = (Entity *)g_ptr_array_index(self->entities, i);
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
 		if (e) {
 			entity_render(e);
 		}
 	}
 }
 
-
 void entityManager_add(EntityManager *self, Entity *entity) {
 	if (self->addMode == IMMEDIATE) {
-		g_ptr_array_add(self->entities, entity);
-		entity_start(entity);
+		_entityManager_addEntity(self, entity);	
 	} else {
 		g_queue_push_tail(self->addQueue, entity);
+	}
+}
+
+void _entityManager_addEntity(EntityManager *self, struct entity_t *entity) {
+	if (entity->id <= 0) {
+		entity->id = self->currentId++;
+	}
+	dynArr_add(self->entities, entity);
+	if (self->addMode == QUEUED) {
+		entity_start(entity);
 	}
 }

@@ -1,4 +1,5 @@
 #include "components.h"
+#include "entity.h"
 
 void *c_playerController_new(Component *super) {
 	size_t pcSize = sizeof(CPlayerController);
@@ -29,6 +30,7 @@ void c_playerController_start(void *pself) {
 void c_playerController_update(void *pself, f32 dt) {
 	C_SELF(CPlayerController);
 	_playerController_movementControls(self);
+	_playerController_shootControls(self);
 }
 
 void _playerController_movementControls(CPlayerController *self) {
@@ -55,6 +57,21 @@ void _playerController_movementControls(CPlayerController *self) {
 	if (tx) {
 		tx->velocity->x = rlDirection * self->speed;
 		tx->velocity->y = udDirection * self->speed;
+	}
+}
+
+void _playerController_shootControls(CPlayerController *self) {
+	if (input_key(SDL_SCANCODE_Z)) {
+		Entity *bullet = entity_new();
+		CTransform *tx = self->super->entity->transform;
+		bullet->transform->position->x = tx->position->x;
+		bullet->transform->position->y = tx->position->y;
+		CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(bullet,
+			C_SPRITE_RENDERER);
+		sprite_setTexture(sr->sprite, "eship1_blue");
+		entity_addComponent(bullet, C_BULLET_CONTROLLER);
+
+		entityManager_add(g_entities, bullet);
 	}
 }
 

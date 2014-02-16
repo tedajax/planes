@@ -1,23 +1,25 @@
 #include "entity.h"
 
-const u32 STARTING_COMPONENT_CAPACITY = 8;
+const u32 DEFAULT_COMPONENT_CAPACITY = 8;
 
-Entity *entity_new(i32 id) {
-	Entity *newEntity = (Entity *)malloc(sizeof(Entity));
+Entity *entity_new() {
+	Entity *self = (Entity *)malloc(sizeof(Entity));
 
-	newEntity->id = id;
-	newEntity->enabled = false;
-	newEntity->destroy = false;
+	self->id = 0;
+	self->enabled = false;
+	self->destroy = false;
 	//todo: GDestroyNotify function for freeing components
-	newEntity->components = g_ptr_array_sized_new(STARTING_COMPONENT_CAPACITY);
+	self->components = dynArr_new(DEFAULT_COMPONENT_CAPACITY);
 
-	return newEntity;
+	self->transform = entity_addComponent(self, C_TRANSFORM);
+
+	return self;
 }
 
 void entity_start(Entity *self) {
 	self->enabled = true;
-	for (int i = 0; i < self->components->len; ++i) {
-		Component *c = (Component *)g_ptr_array_index(self->components, i);
+	for (int i = 0; i < self->components->size; ++i) {
+		Component *c = (Component *)dynArr_index(self->components, i);
 		component_start(c);
 	}
 }
@@ -27,8 +29,8 @@ void entity_update(Entity *self, f32 dt) {
 		return;
 	}
 
-	for (int i = 0; i < self->components->len; ++i) {
-		Component *c = (Component *)g_ptr_array_index(self->components, i);
+	for (int i = 0; i < self->components->size; ++i) {
+		Component *c = (Component *)dynArr_index(self->components, i);
 		component_update(c, dt);
 	}
 }
@@ -38,8 +40,8 @@ void entity_lateUpdate(Entity *self, f32 dt) {
 		return;
 	}
 
-	for (int i = 0; i < self->components->len; ++i) {
-		Component *c = (Component *)g_ptr_array_index(self->components, i);
+	for (int i = 0; i < self->components->size; ++i) {
+		Component *c = (Component *)dynArr_index(self->components, i);
 		component_lateUpdate(c, dt);
 	}
 }
@@ -49,8 +51,8 @@ void entity_render(Entity *self) {
 		return;
 	}
 	
-	for (int i = 0; i < self->components->len; ++i) {
-		Component *c = (Component *)g_ptr_array_index(self->components, i);
+	for (int i = 0; i < self->components->size; ++i) {
+		Component *c = (Component *)dynArr_index(self->components, i);
 		component_render(c);
 	}
 }
@@ -61,14 +63,14 @@ void *entity_addComponent(Entity *self, ComponentType type) {
 	if (self->enabled) {
 		component_start(c);
 	}
-	g_ptr_array_add(self->components, c);
+	dynArr_add(self->components, c);
 
 	return c->component;
 }
 
 void *entity_getComponent(Entity *self, ComponentType type) {
-	for (int i = 0; i < self->components->len; ++i) {
-		Component *c = (Component *)g_ptr_array_index(self->components, i);
+	for (int i = 0; i < self->components->size; ++i) {
+		Component *c = (Component *)dynArr_index(self->components, i);
 
 		if (c->type == type) {
 			return c->component;
@@ -80,5 +82,5 @@ void *entity_getComponent(Entity *self, ComponentType type) {
 
 bool entity_removeComponent(Entity *self, Component *component) {
 	//todo: make this safe to use while components are updating
-	return g_ptr_array_remove(self->components, component);
+	return dynArr_remove(self->components, component);
 }

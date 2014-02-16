@@ -2,6 +2,7 @@
 #include "c_transform.h"
 #include "c_playercontroller.h"
 #include "c_spriterenderer.h"
+#include "c_bulletcontroller.h"
 
 Component *component_new(ComponentType type) {
 	Component *newComp = (Component *)malloc(sizeof(Component));
@@ -63,4 +64,5 @@ void components_initialize() {
 	C_REGISTER(C_TRANSFORM, transform)
 	C_REGISTER(C_SPRITE_RENDERER, spriteRenderer)
 	C_REGISTER(C_PLAYER_CONTROLLER, playerController)
+	C_REGISTER(C_BULLET_CONTROLLER, bulletController)
 }

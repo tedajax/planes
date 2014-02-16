@@ -15,9 +15,10 @@ typedef struct cplayer_controller_t {
 	SDL_Rect bounds;
 } CPlayerController;
 
-C_DECLARE(playerController)
+C_DECLARE(playerController);
 
 void _playerController_movementControls(CPlayerController *self);
+void _playerController_shootControls(CPlayerController *self);
 void _playerController_checkBounds(CPlayerController *self);
 
 #endif

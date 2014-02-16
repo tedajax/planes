@@ -10,7 +10,6 @@ const u32 SCREEN_HEIGHT = 720;
 
 bool gameRunning;
 
-Entity *player;
 
 int main(int argc, char *argv[]) {
 	if (!window_init()) {
@@ -24,8 +23,8 @@ int main(int argc, char *argv[]) {
 
 	g_entities = entityManager_new();
 
-	player = entity_new(1);
-	CTransform *tx = (CTransform *)entity_addComponent(player, C_TRANSFORM);
+	Entity *player = entity_new();
+	CTransform *tx = player->transform;
 	tx->position->x = 200;
 	tx->position->y = SCREEN_HEIGHT / 2;
 	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,

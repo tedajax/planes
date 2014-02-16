@@ -8,16 +8,18 @@
 #include "types.h"
 #include "globals.h"
 #include "algebra.h"
-#include "component.h"
+#include "components.h"
+#include "dynarr.h"
 
 typedef struct entity_t {
 	i32 id;
 	bool enabled;
 	bool destroy;
-	GPtrArray *components;
+	CTransform *transform;
+	DynArr *components;
 } Entity;
 
-Entity *entity_new(i32 id);
+Entity *entity_new();
 void entity_start(Entity *self);
 void entity_update(Entity *self, f32 dt);
 void entity_lateUpdate(Entity *self, f32 dt);

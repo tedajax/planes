@@ -13,6 +13,7 @@ typedef enum component_type_e {
 	C_TRANSFORM,
 	C_SPRITE_RENDERER,
 	C_PLAYER_CONTROLLER,
+	C_BULLET_CONTROLLER,
 	COMPONENT_COUNT //make sure this is always the last element in the enum
 } ComponentType;
 

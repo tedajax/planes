@@ -4,6 +4,7 @@
 #include "component.h"
 #include "c_transform.h"
 #include "c_playercontroller.h"
+#include "c_bulletcontroller.h"
 #include "c_spriterenderer.h"
 
 #endif
