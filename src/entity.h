@@ -13,12 +13,14 @@
 typedef struct entity_t {
 	i32 id;
 	bool enabled;
+	bool destroy;
 	GPtrArray *components;
 } Entity;
 
 Entity *entity_new(i32 id);
 void entity_start(Entity *self);
 void entity_update(Entity *self, f32 dt);
+void entity_lateUpdate(Entity *self, f32 dt);
 void entity_render(Entity *self);
 
 void *entity_addComponent(Entity *self, ComponentType type);

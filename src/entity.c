@@ -7,6 +7,7 @@ Entity *entity_new(i32 id) {
 
 	newEntity->id = id;
 	newEntity->enabled = false;
+	newEntity->destroy = false;
 	//todo: GDestroyNotify function for freeing components
 	newEntity->components = g_ptr_array_sized_new(STARTING_COMPONENT_CAPACITY);
 
@@ -27,11 +28,14 @@ void entity_update(Entity *self, f32 dt) {
 	}
 
 	for (int i = 0; i < self->components->len; ++i) {
-		if (self->components == NULL) {
-			printf("what\n");
-		}
 		Component *c = (Component *)g_ptr_array_index(self->components, i);
 		component_update(c, dt);
+	}
+}
+
+void entity_lateUpdate(Entity *self, f32 dt) {
+	if (!self->enabled) {
+		return;
 	}
 
 	for (int i = 0; i < self->components->len; ++i) {

@@ -3,6 +3,7 @@
 SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
+EntityManager *g_entities = NULL;
 
 const u32 SCREEN_WIDTH = 1280;
 const u32 SCREEN_HEIGHT = 720;
@@ -21,7 +22,8 @@ int main(int argc, char *argv[]) {
 
 	u32 lastTickCount = 0;
 
-	STUBBED("Build entity management system and dont explicitly create player");
+	g_entities = entityManager_new();
+
 	player = entity_new(1);
 	CTransform *tx = (CTransform *)entity_addComponent(player, C_TRANSFORM);
 	tx->position->x = 200;
@@ -30,7 +32,10 @@ int main(int argc, char *argv[]) {
 		C_SPRITE_RENDERER);
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
 	sprite_setTexture(sr->sprite, "eship1_black");
-	entity_start(player);
+	
+	entityManager_add(g_entities, player);
+
+	entityManager_start(g_entities);
 
 	u32 secondCounter = 0;
 	u32 framesCounted = 0;
@@ -65,7 +70,7 @@ int main(int argc, char *argv[]) {
 }
 
 void game_update(f32 dt) {
-	entity_update(player, dt);
+	entityManager_update(g_entities, dt);
 
 	//this should always be the last thing to update
 	input_update();
@@ -75,7 +80,7 @@ void game_render() {
 	SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(g_renderer);
 
-	entity_render(player);
+	entityManager_render(g_entities);
 
 	SDL_RenderPresent(g_renderer);
 }
