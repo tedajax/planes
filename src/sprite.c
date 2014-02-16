@@ -1,18 +1,19 @@
 #include "sprite.h"
 
 Sprite *sprite_new() {
-	Sprite *newSprite = (Sprite *)malloc(sizeof(Sprite));
+	Sprite *self = (Sprite *)malloc(sizeof(Sprite));
 
-	newSprite->position = vec2_new(0, 0);
-	newSprite->rotation = 0;
-	newSprite->scale = vec2_new(1, 1);
-	newSprite->width = 0;
-	newSprite->height = 0;
-	newSprite->origin = CENTER;
-	newSprite->flip = SDL_FLIP_NONE;
-	newSprite->texture = NULL;
+	self->position = vec2_new(0, 0);
+	self->rotation = 0;
+	self->scale = vec2_new(1, 1);
+	self->width = 0;
+	self->height = 0;
+	self->depth = 0;
+	self->origin = CENTER;
+	self->flip = SDL_FLIP_NONE;
+	self->texture = NULL;
 
-	return newSprite;
+	return self;
 }
 
 void sprite_setTexture(Sprite *self, const char *textureName) {

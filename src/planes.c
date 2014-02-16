@@ -4,6 +4,7 @@ SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
 EntityManager *g_entities = NULL;
+SpriteMngr *g_sprites = NULL;
 
 const u32 SCREEN_WIDTH = 1280;
 const u32 SCREEN_HEIGHT = 720;
@@ -22,6 +23,7 @@ int main(int argc, char *argv[]) {
 	u32 lastTickCount = 0;
 
 	g_entities = entityManager_new();
+	g_sprites = spriteMngr_new();
 
 	Entity *player = entity_new();
 	CTransform *tx = player->transform;
@@ -30,7 +32,7 @@ int main(int argc, char *argv[]) {
 	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
 		C_SPRITE_RENDERER);
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
-	sprite_setTexture(sr->sprite, "eship1_black");
+	sprite_setTexture(sr->sprite, "pship3_blue");
 	
 	entityManager_add(g_entities, player);
 
@@ -80,6 +82,7 @@ void game_render() {
 	SDL_RenderClear(g_renderer);
 
 	entityManager_render(g_entities);
+	spriteMngr_flush(g_sprites);
 
 	SDL_RenderPresent(g_renderer);
 }
@@ -93,8 +96,8 @@ bool window_init() {
 	}
 
 	g_window = SDL_CreateWindow("Planes",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
+		0, //SDL_WINDOWPOS_UNDEFINED,
+		0, //SDL_WINDOWPOS_UNDEFINED,
 		SCREEN_WIDTH,
 		SCREEN_HEIGHT,
 		SDL_WINDOW_SHOWN);

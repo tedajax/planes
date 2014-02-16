@@ -30,6 +30,7 @@ typedef struct sprite_t {
 	f32 rotation;
 	i32 width;
 	i32 height;
+	i32 depth;
 	Origins origin;
 	SDL_RendererFlip flip;
 

@@ -15,6 +15,8 @@
 #include "sprite.h"
 #include "entity.h"
 #include "components.h"
+#include "entitymanager.h"
+#include "spritemngr.h"
 
 #include "globals.h"
 

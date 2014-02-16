@@ -1,14 +1,15 @@
 #include "components.h"
 #include "entity.h"
+#include "entitymanager.h"
 
 void *c_playerController_new(Component *super) {
 	size_t pcSize = sizeof(CPlayerController);
-	CPlayerController *newPC = (CPlayerController *)malloc(pcSize);
+	CPlayerController *self = (CPlayerController *)malloc(pcSize);
 
-	newPC->super = super;
-	newPC->speed = 500;
+	self->super = super;
+	self->speed = 500;
 
-	return (void *)newPC;
+	return (void *)self;
 }
 
 void c_playerController_start(void *pself) {
@@ -21,19 +22,22 @@ void c_playerController_start(void *pself) {
 		self->height = sr->sprite->height;
 	}
 
-	self->bounds.x = (self->width / 2) + 5;
-	self->bounds.y = (self->height / 2) + 5;
-	self->bounds.w = 500;
-	self->bounds.h = 500;
+	self->movementBounds.x = (self->width / 2) + 5;
+	self->movementBounds.y = (self->height / 2) + 5;
+	self->movementBounds.w = 500;
+	self->movementBounds.h = 500;
+
+	self->fireDelay = 0.2f;
+	self->fireTimer = 0.0f;
 }
 
 void c_playerController_update(void *pself, f32 dt) {
 	C_SELF(CPlayerController);
-	_playerController_movementControls(self);
-	_playerController_shootControls(self);
+	_playerController_movementControls(self, dt);
+	_playerController_shootControls(self, dt);
 }
 
-void _playerController_movementControls(CPlayerController *self) {
+void _playerController_movementControls(CPlayerController *self, f32 dt) {
 	CTransform *tx = (CTransform *)entity_getComponent(self->super->entity,
 		C_TRANSFORM);
 
@@ -60,16 +64,22 @@ void _playerController_movementControls(CPlayerController *self) {
 	}
 }
 
-void _playerController_shootControls(CPlayerController *self) {
-	if (input_key(SDL_SCANCODE_Z)) {
+void _playerController_shootControls(CPlayerController *self, f32 dt) {
+	self->fireTimer -= dt;
+
+	if (input_key(SDL_SCANCODE_Z) && self->fireTimer <= 0.0f) {
+		self->fireTimer = self->fireDelay;
+
 		Entity *bullet = entity_new();
-		CTransform *tx = self->super->entity->transform;
-		bullet->transform->position->x = tx->position->x;
-		bullet->transform->position->y = tx->position->y;
 		CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(bullet,
 			C_SPRITE_RENDERER);
-		sprite_setTexture(sr->sprite, "eship1_blue");
+		sprite_setTexture(sr->sprite, "laser01_blue");
+		sr->sprite->depth = -1;
 		entity_addComponent(bullet, C_BULLET_CONTROLLER);
+
+		CTransform *tx = self->super->entity->transform;
+		bullet->transform->position->x = tx->position->x + sr->sprite->width / 2;
+		bullet->transform->position->y = tx->position->y;
 
 		entityManager_add(g_entities, bullet);
 	}
@@ -85,10 +95,10 @@ void _playerController_checkBounds(CPlayerController *self) {
 		C_TRANSFORM);
 
 	if (tx) {
-		i32 left = self->bounds.x;
-		i32 right = self->bounds.x + self->bounds.w;
-		i32 top = self->bounds.y;
-		i32 bottom = self->bounds.y + self->bounds.h;
+		i32 left = self->movementBounds.x;
+		i32 right = self->movementBounds.x + self->movementBounds.w;
+		i32 top = self->movementBounds.y;
+		i32 bottom = self->movementBounds.y + self->movementBounds.h;
 
 		if (tx->position->x < left) {
 			tx->position->x = left;
@@ -110,10 +120,10 @@ void c_playerController_render(void *pself) {
 
 	SDL_SetRenderDrawColor(g_renderer, 255, 255, 0, 255);
 	SDL_Rect boundary = {
-		self->bounds.x - self->width / 2,
-		self->bounds.y - self->height / 2,
-		self->bounds.w + self->width,
-		self->bounds.h + self->height
+		self->movementBounds.x - self->width / 2,
+		self->movementBounds.y - self->height / 2,
+		self->movementBounds.w + self->width,
+		self->movementBounds.h + self->height
 	};
 	SDL_RenderDrawRect(g_renderer, &boundary);
 }

@@ -12,13 +12,16 @@ typedef struct cplayer_controller_t {
 	f32 speed;
 	i32 width;
 	i32 height;
-	SDL_Rect bounds;
+	SDL_Rect movementBounds;
+
+	f32 fireDelay;
+	f32 fireTimer;
 } CPlayerController;
 
 C_DECLARE(playerController);
 
-void _playerController_movementControls(CPlayerController *self);
-void _playerController_shootControls(CPlayerController *self);
+void _playerController_movementControls(CPlayerController *self, f32 dt);
+void _playerController_shootControls(CPlayerController *self, f32 dt);
 void _playerController_checkBounds(CPlayerController *self);
 
 #endif

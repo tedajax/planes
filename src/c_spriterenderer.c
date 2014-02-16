@@ -36,5 +36,5 @@ void c_spriteRenderer_render(void *pself) {
 		self->sprite->scale->y = tx->scale->y;
 	}
 
-	sprite_render(self->sprite);
+	spriteMngr_push(g_sprites, self->sprite);
 }
