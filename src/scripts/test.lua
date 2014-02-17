@@ -1,1 +1,0 @@
-print("Holy fuck, embedded Lua!\n");

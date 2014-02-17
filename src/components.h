@@ -6,5 +6,6 @@
 #include "c_playercontroller.h"
 #include "c_bulletcontroller.h"
 #include "c_spriterenderer.h"
+#include "c_luacomponent.h"
 
 #endif

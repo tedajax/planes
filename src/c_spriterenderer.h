@@ -7,6 +7,7 @@
 #include "textures.h"
 #include "algebra.h"
 #include "spritemngr.h"
+#include "component.h"
 
 struct component_t;
 

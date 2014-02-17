@@ -1,7 +1,5 @@
 #include "planes.h"
 
-#include <luajit.h>
-
 SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
@@ -13,11 +11,12 @@ const u32 SCREEN_HEIGHT = 720;
 
 bool gameRunning;
 
-
 int main(int argc, char *argv[]) {
 	if (!window_init()) {
 		return 1;
 	}
+
+	app_init_lua();
 
 	gameRunning = true;
 	SDL_Event sdlEvent;
@@ -35,6 +34,9 @@ int main(int argc, char *argv[]) {
 		C_SPRITE_RENDERER);
 	entity_addComponent(player, C_PLAYER_CONTROLLER);
 	sprite_setTexture(sr->sprite, "pship3_blue");
+	CLuaComponent *lc = (CLuaComponent *)entity_addComponent(player,
+		C_LUA_COMPONENT);
+	c_luaComponent_loadFile(lc, "scripts/test.lua");
 	
 	entityManager_add(g_entities, player);
 
