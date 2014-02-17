@@ -1,5 +1,7 @@
 #include "planes.h"
 
+#include <luajit.h>
+
 SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
