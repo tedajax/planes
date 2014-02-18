@@ -12,7 +12,12 @@ function start()
 end
 
 function update(dt)
-	timer = timer - dt;
+	if timer > 0 then
+		timer = timer - dt;
+	end	
+end
+
+function tryShoot()
 	if (timer <= 0) then
 		timer = firetime
 		C.spawnBullet(50, 350, -10)

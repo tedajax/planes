@@ -11,6 +11,11 @@ void *c_luaComponent_new(Component *super) {
 	self->L = lua_open();
 	luaL_openlibs(self->L);
 
+	self->bindTable = g_hash_table_new_full(g_str_hash,
+		g_str_equal,
+		NULL,
+		luaBind_free);
+
 	return (void *)self;
 }
 
@@ -20,6 +25,9 @@ void c_luaComponent_start(void *pself) {
 	if (!self->fileLoaded) {
 		return;
 	}
+
+	LuaBind *testBind = luaBind_new("tryShoot", 0);
+	c_luaComponent_bind(self, testBind);
 
 	lua_getglobal(self->L, "start");
 	if (lua_pcall(self->L, 0, 0, 0) != 0) {
@@ -33,6 +41,10 @@ void c_luaComponent_update(void *pself, f32 dt) {
 	if (!self->fileLoaded) {
 		return;
 	}	
+
+	if (input_key(SDL_SCANCODE_A)) {
+		c_luaComponent_call(self, "tryShoot");
+	}
 
 	lua_getglobal(self->L, "update");
 	lua_pushnumber(self->L, dt);
@@ -86,3 +98,26 @@ void c_luaComponent_reload(CLuaComponent *self) {
 	luaL_dofile(self->L, self->filename);
 }
 
+void c_luaComponent_call(CLuaComponent *self, const char *function, ...) {
+	if (!self->fileLoaded) {
+		return;
+	}
+
+	LuaBind *bind = g_hash_table_lookup(self->bindTable,
+		(gconstpointer)function);
+
+	if (bind) {
+		va_list argv;
+		va_start(argv, function);
+
+		luaBind_callv(bind, self->L, argv);
+
+		va_end(argv);
+	}
+}
+
+void c_luaComponent_bind(CLuaComponent *self, LuaBind *bind) {
+	assert(self && bind);
+
+	g_hash_table_insert(self->bindTable, (gpointer)bind->funcName, bind);
+}
