@@ -91,3 +91,27 @@ f32 vec2_distSqr(const Vec2 *v1, const Vec2 *v2) {
 
 	return vec2_lenSqr(&diff);
 }
+
+const f32 DEG_TO_RAD = 0.017453f;
+const f32 RAD_TO_DEG = 57.29578f;
+const f32 PI = 3.141593f;
+const f32 PI_OVER_2 = 1.570796f;
+const f32 TWO_PI = 6.283185f;
+
+//const f32 PI_OVER_2 = PI / 2.0f;
+//const f32 TWO_PI = PI * 2.0f;
+
+f32 cosd(const f32 degrees) {
+	return cosf(degrees * DEG_TO_RAD);
+}
+
+f32 sind(const f32 degrees) {
+	return sinf(degrees * DEG_TO_RAD);
+}
+
+f32 wrapd(const f32 degrees) {
+	f32 result = degrees;
+	while (result > 360) { result -= 360; }
+	while (result < 0) { result += 360; }
+	return result;
+}

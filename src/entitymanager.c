@@ -82,3 +82,18 @@ void _entityManager_addEntity(EntityManager *self, struct entity_t *entity) {
 		entity_start(entity);
 	}
 }
+
+void entityManager_reloadLua(EntityManager *self) {
+	assert(self);
+
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
+		if (e) {
+			void *pLua = entity_getComponent(e, C_LUA_COMPONENT);
+			if (pLua) {
+				CLuaComponent *lua = (CLuaComponent *)pLua;
+				c_luaComponent_reload(lua);
+			}
+		}
+	}
+}

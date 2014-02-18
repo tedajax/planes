@@ -23,4 +23,14 @@ f32 vec2_lenSqr(const Vec2 *vec);
 f32 vec2_dist(const Vec2 *v1, const Vec2 *v2);
 f32 vec2_distSqr(const Vec2 *v1, const Vec2 *v2);
 
+extern const f32 DEG_TO_RAD;
+extern const f32 RAD_TO_DEG;
+extern const f32 PI;
+//extern const f32 PI_OVER_2;
+//extern const f32 TWO_PI;
+
+f32 cosd(const f32 degrees);
+f32 sind(const f32 degrees);
+f32 wrapd(const f32 degrees);
+
 #endif

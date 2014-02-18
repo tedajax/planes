@@ -18,7 +18,8 @@ void c_bulletController_start(void *pself) {
 		C_TRANSFORM);
 
 	if (tx) {
-		tx->velocity->x = self->speed;
+		tx->velocity->x = cosd(tx->rotation) * self->speed;
+		tx->velocity->y = sind(tx->rotation) * self->speed;
 	}
 }
 

@@ -29,7 +29,8 @@ void entityManager_render(EntityManager *self);
 
 void entityManager_add(EntityManager *self, struct entity_t *entity);
 //void entityManager_get(EntityManager *self, u32 id);
-
 void _entityManager_addEntity(EntityManager *self, struct entity_t *entity);
+
+void entityManager_reloadLua(EntityManager *self);
 
 #endif

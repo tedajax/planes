@@ -16,8 +16,6 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	app_init_lua();
-
 	gameRunning = true;
 	SDL_Event sdlEvent;
 
@@ -76,6 +74,10 @@ int main(int argc, char *argv[]) {
 
 void game_update(f32 dt) {
 	entityManager_update(g_entities, dt);
+
+	if (input_keyDown(SDL_SCANCODE_R)) {
+		entityManager_reloadLua(g_entities);
+	}
 
 	//this should always be the last thing to update
 	input_update();

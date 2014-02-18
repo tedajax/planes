@@ -74,3 +74,15 @@ void c_luaComponent_loadFile(CLuaComponent *self, const char *filename) {
 	luaL_dofile(self->L, filename);
 	self->fileLoaded = true;
 }
+
+void c_luaComponent_reload(CLuaComponent *self) {
+	if (!self->fileLoaded) {
+		return;
+	}
+	
+	lua_close(self->L);
+	self->L = lua_open();
+	luaL_openlibs(self->L);
+	luaL_dofile(self->L, self->filename);
+}
+

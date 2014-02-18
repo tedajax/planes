@@ -21,7 +21,9 @@ typedef struct clua_component_t {
 C_DECLARE(luaComponent);
 
 void c_luaComponent_loadFile(CLuaComponent *self, const char *filename);
+void c_luaComponent_reload(CLuaComponent *self);
 
-#define LUA_ERROR(L) fprintf(stderr, "Lua error: %s\n", lua_tostring(L, -1));
+#define LUA_ERROR(L) fprintf(stderr, "Lua error in %s:%d: %s\n", \
+	__FILE__, __LINE__, lua_tostring(L, -1));
 
 #endif
