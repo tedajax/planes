@@ -1,9 +1,9 @@
 TARGET		= planes
 CC			= clang
-CFLAGS		= -std=c99 -Wall -I. `pkg-config --cflags glib-2.0 luajit` -g
+CFLAGS		= -std=c99 -Wall -I. `pkg-config --cflags luajit` -g
 
 LINKER		= clang -o
-LFLAGS		= -Wall -I. -lm -lSDL2 -lSDL2_image `pkg-config --libs glib-2.0 luajit` -rdynamic
+LFLAGS		= -Wall -I. -lm -lSDL2 -lSDL2_image `pkg-config --libs luajit` -rdynamic
 
 SRCDIR		= src
 OBJDIR		= obj

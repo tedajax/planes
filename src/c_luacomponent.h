@@ -10,17 +10,16 @@
 #include <luajit.h>
 #include <lauxlib.h>
 
-#include <glib.h>
-
 #include "component.h"
 #include "luabind.h"
+#include "hashtable.h"
 
 typedef struct clua_component_t {
 	struct component_t *super;
 	bool fileLoaded;
 	char *filename;
 	lua_State *L;
-	GHashTable *bindTable;
+	HashTable *bindTable;
 } CLuaComponent;
 
 C_DECLARE(luaComponent);

@@ -7,8 +7,8 @@ EntityManager *entityManager_new() {
 	self->currentId = 1;
 	self->addMode = IMMEDIATE;
 	self->entities = dynArr_new(128);
-	self->addQueue = g_queue_new();
-	self->removeQueue = g_queue_new();
+	self->addQueue = queue_new(256);
+	self->removeQueue = queue_new(256);
 
 	return self;
 }
@@ -38,21 +38,21 @@ void entityManager_update(EntityManager *self, f32 dt) {
 			entity_lateUpdate(e, dt);
 
 			if (e->destroy) {
-				g_queue_push_tail(self->removeQueue, e);
+				queue_push(self->removeQueue, e);
 			}
 		}
 	}
 
-	void *ptrEntity = g_queue_pop_head(self->removeQueue);
+	void *ptrEntity = queue_pop(self->removeQueue);
 	while (ptrEntity != NULL) {
 		dynArr_remove(self->entities, ptrEntity);
-		ptrEntity = g_queue_pop_head(self->removeQueue);
+		ptrEntity = queue_pop(self->removeQueue);
 	}
 
-	void *ptrAddEntity = g_queue_pop_head(self->addQueue);
+	void *ptrAddEntity = queue_pop(self->addQueue);
 	while (ptrAddEntity != NULL) {
 		_entityManager_addEntity(self, (Entity *)ptrAddEntity);
-		ptrAddEntity = g_queue_pop_head(self->addQueue);
+		ptrAddEntity = queue_pop(self->addQueue);
 	}
 }
 
@@ -69,7 +69,7 @@ void entityManager_add(EntityManager *self, Entity *entity) {
 	if (self->addMode == IMMEDIATE) {
 		_entityManager_addEntity(self, entity);	
 	} else {
-		g_queue_push_tail(self->addQueue, entity);
+		queue_push(self->addQueue, entity);
 	}
 }
 

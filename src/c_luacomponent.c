@@ -11,11 +11,8 @@ void *c_luaComponent_new(Component *super) {
 	self->L = lua_open();
 	luaL_openlibs(self->L);
 
-	self->bindTable = g_hash_table_new_full(g_str_hash,
-		g_str_equal,
-		NULL,
-		luaBind_free);
-
+	self->bindTable = hashtable_new(32);
+	
 	return (void *)self;
 }
 
@@ -103,8 +100,7 @@ void c_luaComponent_call(CLuaComponent *self, const char *function, ...) {
 		return;
 	}
 
-	LuaBind *bind = g_hash_table_lookup(self->bindTable,
-		(gconstpointer)function);
+	LuaBind *bind = hashtable_get(self->bindTable, function);
 
 	if (bind) {
 		va_list argv;
@@ -119,5 +115,5 @@ void c_luaComponent_call(CLuaComponent *self, const char *function, ...) {
 void c_luaComponent_bind(CLuaComponent *self, LuaBind *bind) {
 	assert(self && bind);
 
-	g_hash_table_insert(self->bindTable, (gpointer)bind->funcName, bind);
+	hashtable_insert(self->bindTable, bind->funcName, bind);
 }

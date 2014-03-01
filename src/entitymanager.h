@@ -1,11 +1,11 @@
 #ifndef _ENTITY_MANAGER_H_
 #define _ENTITY_MANAGER_H_
 
-#include <glib.h>
 #include <stdlib.h>
 
 #include "types.h"
 #include "dynarr.h"
+#include "queue.h"
 
 struct entity_t;
 
@@ -18,8 +18,8 @@ typedef struct entity_manager_t {
 	u32 currentId;
 	AddMode addMode;
 	DynArr *entities;
-	GQueue *addQueue;
-	GQueue *removeQueue;
+	Queue *addQueue;
+	Queue *removeQueue;
 } EntityManager;
 
 EntityManager *entityManager_new();

@@ -3,7 +3,6 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include <glib.h>
 
 #include "types.h"
 #include "globals.h"

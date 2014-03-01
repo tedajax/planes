@@ -7,7 +7,7 @@ ResourceMap *resourceMap_new(char* filename) {
 	ResourceMap *newRMap = (ResourceMap *)malloc(sizeof(ResourceMap));
 
 	newRMap->filename = filename;
-	newRMap->resources = g_ptr_array_sized_new(16);
+	newRMap->resources = dynArr_new(16);
 
 	return newRMap;
 }
@@ -36,21 +36,20 @@ void resourceMap_load(ResourceMap *self) {
 		strcpy(node->key, keyBuffer);
 		strcpy(node->value, valueBuffer);
 
-		g_ptr_array_add(self->resources, node);
+		dynArr_add(self->resources, node);
 	}
 
 	fclose(inFile);
 }
 
 void resourceMap_free(ResourceMap *self) {
-	for (int i = 0; i < self->resources->len; ++i) {
-		RMapNode *node = (RMapNode *)g_ptr_array_index(self->resources, i);
+	for (int i = 0; i < self->resources->size; ++i) {
+		RMapNode *node = (RMapNode *)dynArr_index(self->resources, i);
 		free(node->key);
 		free(node->value);
 		node->key = NULL;
 		node->value = NULL;
 		free(node);
 	}
-	g_ptr_array_free(self->resources, TRUE);
-	g_free(self->resources);
+	free(self->resources);
 }

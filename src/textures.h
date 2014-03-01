@@ -5,16 +5,15 @@
 #include <string.h>
 #include <assert.h>
 
-#include <glib.h>
-
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "types.h"
 #include "globals.h"
 #include "resourcemap.h"
+#include "hashtable.h"
 
-GHashTable *textureMap;
+HashTable *textureMap;
 
 void textures_init();
 void textures_destroy();
@@ -24,6 +23,6 @@ void textures_loadRMap(ResourceMap *rmap);
 SDL_Texture *textures_get(const char *name);
 
 SDL_Texture *texture_load(const char *filename);
-void texture_free(gpointer texture);
+void texture_free(void *texture);
 
 #endif

@@ -1,32 +1,35 @@
 #include "textures.h"
 #include <SDL2/SDL.h>
 
-GHashTable *textureMap = NULL;
+HashTable *textureMap = NULL;
 
 void textures_init() {
 	assert(textureMap == NULL);
 
-	textureMap = g_hash_table_new_full(g_str_hash,
-		g_str_equal,
-		NULL,
-		texture_free);
+	textureMap = hashtable_new(128);
+	// textureMap = g_hash_table_new_full(g_str_hash,
+	// 	g_str_equal,
+	// 	NULL,
+	// 	texture_free);
 }
 
 void textures_destroy() {
-	g_hash_table_unref(textureMap);
+	//todo clean up 
+	// g_hash_table_unref(textureMap);
 }
 
 void textures_add(const char *name, SDL_Texture *texture) {
 	assert(texture != NULL);
 
-	g_hash_table_insert(textureMap, (gpointer)name, texture);
+	hashtable_insert(textureMap, name, texture);
+	// g_hash_table_insert(textureMap, (gpointer)name, texture);
 }
 
 void textures_loadRMap(ResourceMap *rmap) {
 	assert(rmap);
 
-	for (int i = 0; i < rmap->resources->len; ++i) {
-		RMapNode *node = g_ptr_array_index(rmap->resources, i);
+	for (int i = 0; i < rmap->resources->size; ++i) {
+		RMapNode *node = dynArr_index(rmap->resources, i);
 
 		SDL_Texture *tex = texture_load(node->value);
 		if (tex) {
@@ -38,11 +41,13 @@ void textures_loadRMap(ResourceMap *rmap) {
 }
 
 void textures_remove(const char *name) {
-	g_hash_table_remove(textureMap, name);
+	hashtable_remove(textureMap, name);
+	// g_hash_table_remove(textureMap, name);
 }
 
 SDL_Texture *textures_get(const char *name) {
-	return g_hash_table_lookup(textureMap, (gconstpointer)name);
+	return hashtable_get(textureMap, name);
+	// return g_hash_table_lookup(textureMap, (gconstpointer)name);
 }
 
 SDL_Texture *texture_load(const char *filename) {
@@ -64,6 +69,6 @@ SDL_Texture *texture_load(const char *filename) {
 	return newTexture;
 }
 
-void texture_free(gpointer texture) {
+void texture_free(void *texture) {
 	SDL_DestroyTexture((SDL_Texture *)texture);
 }

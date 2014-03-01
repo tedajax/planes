@@ -4,12 +4,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #include "types.h"
 #include "dynarr.h"
 
 typedef struct hashtable_node_t {
-	char *key;
+	u64 key;
 	void *value;
 } HashTableNode;
 
@@ -18,7 +19,7 @@ typedef struct hashtable_t {
 	DynArr **buckets;
 } HashTable;
 
-HashTable *hashtable_new(u32 capacity);
+HashTable *hashtable_new(u32 buckets);
 
 //insert data into hashtable with given key
 //if key does not exist in hash table, inserts value with key and returns true
@@ -31,7 +32,7 @@ void *hashtable_get(HashTable *self, const char *key);
 //removes value stored at key and returns it
 void *hashtable_remove(HashTable *self, const char *key);
 
-u64 _hashtable_djb2(const unsigned char *key);
+u64 _hashtable_djb2(const char *key);
 u32 _hashtable_index(HashTable *self, const char *key);
 
 #endif
