@@ -73,6 +73,17 @@ void entityManager_add(EntityManager *self, Entity *entity) {
 	}
 }
 
+Entity *entityManager_get(EntityManager *self, i32 id) {
+	for (int i = 0; i < self->entities->size; ++i) {
+		Entity *e = (Entity *)dynArr_index(self->entities, i);
+		if (e->id == id) {
+			return e;
+		}
+	}
+
+	return NULL;
+}
+
 void _entityManager_addEntity(EntityManager *self, struct entity_t *entity) {
 	if (entity->id <= 0) {
 		entity->id = self->currentId++;

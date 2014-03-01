@@ -1,20 +1,17 @@
-local ffi = require("ffi")
-
-ffi.cdef[[
-	void spawnBullet(float x, float y, float angle);
-]]
+local ffi = require("scripts/gameapi")
 
 local C = ffi.C
 local firetime = 0.1
 local timer = firetime
 
 function start()
+	player = C.getEntity(1);
 end
 
 function update(dt)
 	if timer > 0 then
 		timer = timer - dt;
-	end	
+	end
 end
 
 function tryShoot()

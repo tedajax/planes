@@ -28,6 +28,7 @@ void entityManager_update(EntityManager *self, f32 dt);
 void entityManager_render(EntityManager *self);
 
 void entityManager_add(EntityManager *self, struct entity_t *entity);
+struct entity_t *entityManager_get(EntityManager *self, i32 id);
 //void entityManager_get(EntityManager *self, u32 id);
 void _entityManager_addEntity(EntityManager *self, struct entity_t *entity);
 

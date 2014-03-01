@@ -28,4 +28,6 @@ void *entity_addComponent(Entity *self, ComponentType type);
 void *entity_getComponent(Entity *self, ComponentType type);
 bool entity_removeComponent(Entity *self, Component *component);
 
+CLuaComponent *entity_addLua(Entity *self, const char *filename);
+
 #endif

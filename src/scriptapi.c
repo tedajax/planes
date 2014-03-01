@@ -32,3 +32,35 @@ void spawnBullet(float x, float y, float angle) {
 
 	entityManager_add(g_entities, bullet);
 }
+
+Entity *getEntity(int id) {
+	return entityManager_get(g_entities, id);
+}
+
+void entitySetPosition(Entity *e, float x, float y) {
+	assert(e);
+	e->transform->position->x = x;
+	e->transform->position->y = y;
+}
+
+void entitySetRotation(Entity *e, float r) {
+	assert(e);
+	e->transform->rotation = r;
+}
+
+void entitySetScale(Entity *e, float x, float y) {
+	assert(e);
+	e->transform->scale->x = x;
+	e->transform->scale->y = y;
+}
+
+void entitySetVelocity(Entity *e, float x, float y) {
+	assert(e);
+	e->transform->velocity->y = y;
+	e->transform->velocity->x = x;
+}
+
+void entitySetAngularVelocity(Entity *e, float r) {
+	assert(e);
+	e->transform->angularVelocity = r;
+}

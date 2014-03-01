@@ -1,5 +1,7 @@
 #include "planes.h"
 
+#include "color.h"
+
 SDL_Renderer *g_renderer = NULL;
 SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
@@ -43,6 +45,12 @@ int main(int argc, char *argv[]) {
 	u32 secondCounter = 0;
 	u32 framesCounted = 0;
 
+	ColorHSV hsv;
+	hsv.h = 0;
+	hsv.s = 1;
+	hsv.v = 1;
+	hsv.a = 1;
+
 	while (gameRunning) {
 		while(SDL_PollEvent(&sdlEvent) != 0) {
 			app_handle_event(sdlEvent);
@@ -55,6 +63,12 @@ int main(int argc, char *argv[]) {
 		lastTickCount = ticks;
 
 		game_update(dt);
+		hsv.h += 100 * dt;
+		SDL_Color rgbColor = color_convertHSV(&hsv);
+		// printf("%u %u %u\n", rgbColor.r, rgbColor.g, rgbColor.b);
+		SDL_SetRenderDrawColor(g_renderer, rgbColor.r, rgbColor.g, rgbColor.b, 255);
+		SDL_RenderClear(g_renderer);
+
 		game_render();
 
 		++framesCounted;
@@ -84,8 +98,7 @@ void game_update(f32 dt) {
 }
 
 void game_render() {
-	SDL_SetRenderDrawColor(g_renderer, 0, 0, 0, 255);
-	SDL_RenderClear(g_renderer);
+	
 
 	entityManager_render(g_entities);
 	spriteMngr_flush(g_sprites);
@@ -103,11 +116,11 @@ bool window_init() {
 
 	g_window = SDL_CreateWindow("Planes",
 		0, //SDL_WINDOWPOS_UNDEFINED,
-		0, //SDL_WINDOWPOS_UNDEFINED,
+		16, //SDL_WINDOWPOS_UNDEFINED,
 		SCREEN_WIDTH,
 		SCREEN_HEIGHT,
 		SDL_WINDOW_SHOWN);
-
+	
 	if (!g_window) {
 		SDL_PRINT_ERROR
 		return false;

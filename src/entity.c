@@ -84,3 +84,11 @@ bool entity_removeComponent(Entity *self, Component *component) {
 	//todo: make this safe to use while components are updating
 	return dynArr_remove(self->components, component);
 }
+
+CLuaComponent *entity_addLua(Entity *self, const char *filename) {
+	assert(self);
+	void *pLuaC = entity_addComponent(self, C_LUA_COMPONENT);
+	CLuaComponent *luaC = (CLuaComponent *)pLuaC;
+	c_luaComponent_loadFile(luaC, filename);
+	return luaC;
+}
