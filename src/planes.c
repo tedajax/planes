@@ -63,9 +63,8 @@ int main(int argc, char *argv[]) {
 		lastTickCount = ticks;
 
 		game_update(dt);
-		hsv.h += 100 * dt;
+		hsv.h += 360 * dt;
 		SDL_Color rgbColor = color_convertHSV(&hsv);
-		// printf("%u %u %u\n", rgbColor.r, rgbColor.g, rgbColor.b);
 		SDL_SetRenderDrawColor(g_renderer, rgbColor.r, rgbColor.g, rgbColor.b, 255);
 		SDL_RenderClear(g_renderer);
 

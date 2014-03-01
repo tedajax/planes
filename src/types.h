@@ -2,6 +2,7 @@
 #define _TYPES_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef	int8_t		i8;
 typedef	int16_t		i16;
