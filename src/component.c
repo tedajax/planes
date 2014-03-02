@@ -4,6 +4,7 @@
 #include "c_spriterenderer.h"
 #include "c_bulletcontroller.h"
 #include "c_luacomponent.h"
+#include "c_backgroundscroll.h"
 
 Component *component_new(ComponentType type) {
 	Component *newComp = (Component *)malloc(sizeof(Component));
@@ -67,4 +68,5 @@ void components_initialize() {
 	C_REGISTER(C_PLAYER_CONTROLLER, playerController)
 	C_REGISTER(C_BULLET_CONTROLLER, bulletController)
 	C_REGISTER(C_LUA_COMPONENT, luaComponent)
+	C_REGISTER(C_BACKGROUND_SCROLL, backgroundScroll)
 }

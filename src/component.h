@@ -15,6 +15,7 @@ typedef enum component_type_e {
 	C_PLAYER_CONTROLLER,
 	C_BULLET_CONTROLLER,
 	C_LUA_COMPONENT,
+	C_BACKGROUND_SCROLL,
 	COMPONENT_COUNT //make sure this is always the last element in the enum
 } ComponentType;
 

@@ -7,5 +7,6 @@
 #include "c_bulletcontroller.h"
 #include "c_spriterenderer.h"
 #include "c_luacomponent.h"
+#include "c_backgroundscroll.h"
 
 #endif
