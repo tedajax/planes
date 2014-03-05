@@ -23,8 +23,9 @@ void c_luaComponent_start(void *pself) {
 		return;
 	}
 
-	LuaBind *testBind = luaBind_new("tryShoot", 0);
+	LuaBind *testBind = luaBind_new("setEntityId", 1, LUA_ARG_INTEGER);
 	c_luaComponent_bind(self, testBind);
+	c_luaComponent_call(self, "setEntityId", self->super->entity->id);
 
 	lua_getglobal(self->L, "start");
 	if (lua_pcall(self->L, 0, 0, 0) != 0) {
@@ -38,10 +39,6 @@ void c_luaComponent_update(void *pself, f32 dt) {
 	if (!self->fileLoaded) {
 		return;
 	}	
-
-	if (input_key(SDL_SCANCODE_A)) {
-		c_luaComponent_call(self, "tryShoot");
-	}
 
 	lua_getglobal(self->L, "update");
 	lua_pushnumber(self->L, dt);

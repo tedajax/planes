@@ -47,4 +47,9 @@ ffi.cdef[[
 	void entitySetAngularVelocity(struct entity_t *e, float r);
 ]]
 
+entityId = 0
+function setEntityId(id)
+	entityId = id
+end
+
 return ffi

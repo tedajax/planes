@@ -24,19 +24,31 @@ int main(int argc, char *argv[]) {
 	g_entities = entityManager_new();
 	g_sprites = spriteMngr_new();
 
-	Entity *player = entity_new();
-	CTransform *tx = player->transform;
-	tx->position->x = 200;
-	tx->position->y = SCREEN_HEIGHT / 2;
-	CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
-		C_SPRITE_RENDERER);
-	entity_addComponent(player, C_PLAYER_CONTROLLER);
-	sprite_setTexture(sr->sprite, "pship3_blue");
-	CLuaComponent *lc = (CLuaComponent *)entity_addComponent(player,
-		C_LUA_COMPONENT);
-	c_luaComponent_loadFile(lc, "scripts/test.lua");
+	do {
+		Entity *player = entity_new();
+		CTransform *tx = player->transform;
+		tx->position->x = 200;
+		tx->position->y = SCREEN_HEIGHT / 2;
+		CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(player,
+			C_SPRITE_RENDERER);
+		entity_addComponent(player, C_PLAYER_CONTROLLER);
+		sprite_setTexture(sr->sprite, "pship3_blue");
+		entityManager_add(g_entities, player);
+	} while(0);
+
+	do {
+		Entity *stars = entity_new();
+		CTransform *tx = stars->transform;
+		tx->position->x = 1000;
+		tx->position->y = SCREEN_HEIGHT / 2;
+		CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(stars,
+			C_SPRITE_RENDERER);
+		sprite_setTexture(sr->sprite, "pship3_red");
+		entity_addLua(stars, "scripts/background.lua");
+		entityManager_add(g_entities, stars);
+	} while(0);
 	
-	entityManager_add(g_entities, player);
+	
 
 	entityManager_start(g_entities);
 
