@@ -64,3 +64,13 @@ void entitySetAngularVelocity(Entity *e, float r) {
 	assert(e);
 	e->transform->angularVelocity = r;
 }
+
+Sprite *entityGetSprite(Entity *e) {
+	assert(e);
+	void *pSR = entity_getComponent(e, C_SPRITE_RENDERER);
+	if (pSR) {
+		CSpriteRenderer *sr = (CSpriteRenderer *)pSR;
+		return sr->sprite;
+	}
+	return NULL;
+}

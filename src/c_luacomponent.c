@@ -90,6 +90,7 @@ void c_luaComponent_reload(CLuaComponent *self) {
 	self->L = lua_open();
 	luaL_openlibs(self->L);
 	luaL_dofile(self->L, self->filename);
+	c_luaComponent_start(self);
 }
 
 void c_luaComponent_call(CLuaComponent *self, const char *function, ...) {

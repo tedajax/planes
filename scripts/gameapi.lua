@@ -40,11 +40,22 @@ ffi.cdef[[
 		CTransform *transform;
 	} Entity;
 	Entity *getEntity(int32_t id);
+
+	struct sprite_t {
+		struct vec2_t *position;
+		struct vec2_t *scale;
+		float rotation;
+		int width;
+		int height;
+		int depth;
+	};
+
 	void entitySetPosition(struct entity_t *e, float x, float y);
 	void entitySetRotation(struct entity_t *e, float r);
 	void entitySetScale(struct entity_t *e, float x, float y);
 	void entitySetVelocity(struct entity_t *e, float x, float y);
 	void entitySetAngularVelocity(struct entity_t *e, float r);
+	struct sprite_t *entityGetSprite(struct entity_t *e);
 ]]
 
 entityId = 0
