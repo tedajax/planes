@@ -15,7 +15,7 @@ typedef struct entity_t {
 	bool enabled;
 	bool destroy;
 	CTransform *transform;
-	DynArr *components;
+	DArr *components;
 } Entity;
 
 Entity *entity_new();

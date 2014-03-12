@@ -17,7 +17,7 @@ typedef enum entity_manager_add_mode_t {
 typedef struct entity_manager_t {
 	u32 currentId;
 	AddMode addMode;
-	DynArr *entities;
+	DArr *entities;
 	Queue *addQueue;
 	Queue *removeQueue;
 } EntityManager;

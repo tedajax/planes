@@ -1,35 +1,35 @@
 #include "dynarr.h"
 
-DynArr *dynArr_new(u32 capacity) {
-	DynArr *self = (DynArr *)malloc(sizeof(DynArr));
+DArr *darr_new(u32 capacity) {
+	DArr *self = (DArr *)malloc(sizeof(DArr));
 
 	self->size = 0;
 	self->freeFunc = NULL;
 	self->data = NULL;
-	_dynArr_resize(self, capacity);
+	_darr_resize(self, capacity);
 
 	return self;
 }
 
-void dynArr_setFreeFunc(DynArr *self, free_func freeFunc) {
+void darr_setFreeFunc(DArr *self, free_func freeFunc) {
 	assert(self);
 	assert(freeFunc);
 	self->freeFunc = freeFunc;
 }
 
-void dynArr_add(DynArr *self, void *element) {
+void darr_add(DArr *self, void *element) {
 	assert(self);
 	assert(element);
 
 	if (self->size >= self->capacity) {
-		_dynArr_resize(self, self->capacity * 2);
+		_darr_resize(self, self->capacity * 2);
 	}
 
 	self->data[self->size] = element;
 	++self->size;
 }
 
-void *dynArr_index(DynArr *self, u32 index) {
+void *darr_index(DArr *self, u32 index) {
 	assert(self);
 
 	if (index >= self->size) {
@@ -39,20 +39,20 @@ void *dynArr_index(DynArr *self, u32 index) {
 	return self->data[index];
 }
 
-bool dynArr_remove(DynArr *self, void *element) {
+bool darr_remove(DArr *self, void *element) {
 	assert(self);
 	assert(element);
 
 	for (int i = 0; i < self->size; ++i) {
 		if (self->data[i] == element) {
-			return dynArr_removeAt(self, i);;
+			return darr_removeAt(self, i);;
 		}
 	}
 
 	return false;
 }
 
-bool dynArr_removeAt(DynArr *self, u32 index) {
+bool darr_removeAt(DArr *self, u32 index) {
 	assert(self);
 
 	if (index >= self->size) {
@@ -76,7 +76,7 @@ bool dynArr_removeAt(DynArr *self, u32 index) {
 	return true;
 }
 
-void _dynArr_resize(DynArr *self, u32 capacity) {
+void _darr_resize(DArr *self, u32 capacity) {
 	assert(self);
 
 	if (capacity <= self->size) {

@@ -15,7 +15,7 @@ typedef struct resource_map_node_t {
 
 typedef struct resource_map_t {
 	char *filename;
-	DynArr *resources;
+	DArr *resources;
 } ResourceMap;
 
 extern size_t MAX_RESOURCE_KEY_LENGTH;

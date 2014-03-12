@@ -13,15 +13,15 @@ typedef struct dynarr_t {
 	u32 capacity;
 	free_func freeFunc;
 	void **data;
-} DynArr;
+} DArr;
 
-DynArr *dynArr_new(u32 capacity);
-void dynArr_setFreeFunc(DynArr *self, free_func freeFunc);
-void dynArr_add(DynArr *self, void *element);
-void *dynArr_index(DynArr *self, u32 index);
-bool dynArr_remove(DynArr *self, void *element);
-bool dynArr_removeAt(DynArr *self, u32 index);
+DArr *darr_new(u32 capacity);
+void darr_setFreeFunc(DArr *self, free_func freeFunc);
+void darr_add(DArr *self, void *element);
+void *darr_index(DArr *self, u32 index);
+bool darr_remove(DArr *self, void *element);
+bool darr_removeAt(DArr *self, u32 index);
 
-void _dynArr_resize(DynArr *self, u32 capacity);
+void _darr_resize(DArr *self, u32 capacity);
 
 #endif

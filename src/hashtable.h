@@ -16,7 +16,7 @@ typedef struct hashtable_node_t {
 
 typedef struct hashtable_t {
 	u32 bucketCount;
-	DynArr **buckets;
+	DArr **buckets;
 } HashTable;
 
 HashTable *hashtable_new(u32 buckets);
