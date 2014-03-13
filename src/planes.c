@@ -37,6 +37,8 @@ int main(int argc, char *argv[]) {
 		entityManager_add(g_entities, player);
 	} while(0);
 
+	int count = 500;
+	int i = 0;
 	do {
 		Entity *stars = entity_new();
 		CTransform *tx = stars->transform;
@@ -44,12 +46,12 @@ int main(int argc, char *argv[]) {
 		tx->position->y = SCREEN_HEIGHT / 2;
 		CSpriteRenderer *sr = (CSpriteRenderer *)entity_addComponent(stars,
 			C_SPRITE_RENDERER);
-		sprite_setTexture(sr->sprite, "pship3_red");
+		sprite_setTexture(sr->sprite, "star");
+		sr->sprite->depth = -10;
 		entity_addLua(stars, "scripts/background.lua");
 		entityManager_add(g_entities, stars);
-	} while(0);
-	
-	
+		++i;
+	} while(i < count);	
 
 	entityManager_start(g_entities);
 
