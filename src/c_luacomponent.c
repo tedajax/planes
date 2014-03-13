@@ -23,9 +23,16 @@ void c_luaComponent_start(void *pself) {
 		return;
 	}
 
-	LuaBind *testBind = luaBind_new("setEntityId", 1, LUA_ARG_INTEGER);
-	c_luaComponent_bind(self, testBind);
+	LuaBind *setEnt = luaBind_new("setEntityId", 1, LUA_ARG_INTEGER);
+	c_luaComponent_bind(self, setEnt);
 	c_luaComponent_call(self, "setEntityId", self->super->entity->id);
+
+	LuaBind *screenSize = luaBind_new("setScreenSize",
+		2,
+		LUA_ARG_INTEGER,
+		LUA_ARG_INTEGER);
+	c_luaComponent_bind(self, screenSize);
+	c_luaComponent_call(self, "setScreenSize", SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	lua_getglobal(self->L, "start");
 	if (lua_pcall(self->L, 0, 0, 0) != 0) {

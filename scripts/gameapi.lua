@@ -56,11 +56,22 @@ ffi.cdef[[
 	void entitySetVelocity(struct entity_t *e, float x, float y);
 	void entitySetAngularVelocity(struct entity_t *e, float r);
 	struct sprite_t *entityGetSprite(struct entity_t *e);
+	int random(int min, int max);
 ]]
 
 entityId = 0
 function setEntityId(id)
 	entityId = id
+end
+
+screen = {}
+function setScreenSize(width, height)
+	screen.width = width
+	screen.height = height
+end
+
+function random(min, max)
+	return ffi.C.random(min, max)
 end
 
 return ffi

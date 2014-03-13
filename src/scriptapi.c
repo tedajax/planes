@@ -74,3 +74,7 @@ Sprite *entityGetSprite(Entity *e) {
 	}
 	return NULL;
 }
+
+int random(int min, int max) {
+	return (rand() % (max - min)) + min;
+}

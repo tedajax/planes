@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <time.h>
 
 #include "types.h"
 
@@ -26,6 +27,8 @@ extern SDL_Window *g_window;
 extern SDL_Surface *g_screen;
 extern struct entity_manager_t *g_entities;
 extern struct sprite_mngr_t *g_sprites;
+
+extern time_t g_randomSeed;
 
 extern const u32 SCREEN_WIDTH;
 extern const u32 SCREEN_HEIGHT;

@@ -5,6 +5,7 @@ SDL_Window *g_window = NULL;
 SDL_Surface *g_screen = NULL;
 EntityManager *g_entities = NULL;
 SpriteMngr *g_sprites = NULL;
+time_t g_randomSeed = 0;
 
 const u32 SCREEN_WIDTH = 1280;
 const u32 SCREEN_HEIGHT = 720;
@@ -106,7 +107,8 @@ void game_render() {
 }
 
 bool window_init() {
-	srand(time(NULL));
+	g_randomSeed = time(NULL);
+	srand(g_randomSeed);
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		SDL_PRINT_ERROR
