@@ -12,6 +12,6 @@ void entitySetScale(struct entity_t *e, float x, float y);
 void entitySetVelocity(struct entity_t *e, float x, float y);
 void entitySetAngularVelocity(struct entity_t *e, float r);
 struct sprite_t *entityGetSprite(struct entity_t *e);
-int random(int min, int max);
+int random_int(int min, int max);
 
 #endif

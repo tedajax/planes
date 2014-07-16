@@ -9,6 +9,13 @@ void *c_luaComponent_new(Component *super) {
 	self->fileLoaded = false;
 	self->filename = NULL;
 	self->L = lua_open();
+
+	if (!self->L) {
+		printf("lua_open returned null, if on OSX link with \
+			   \n\t-pagezero_size 10000 -image_base 10000000\n");
+		exit(0);
+	}
+
 	luaL_openlibs(self->L);
 
 	self->bindTable = hashtable_new(32);

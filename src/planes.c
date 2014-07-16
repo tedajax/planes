@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 		entity_addLua(stars, "scripts/background.lua");
 		entityManager_add(g_entities, stars);
 		++i;
-	} while(i < count);	
+	} while(i < count);
 
 	entityManager_start(g_entities);
 
