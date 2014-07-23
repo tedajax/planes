@@ -7,7 +7,7 @@
 #include <assert.h>
 
 #include "types.h"
-#include "dynarr.h"
+#include "vector.h"
 
 typedef struct hashtable_node_t {
 	u64 key;
@@ -16,7 +16,7 @@ typedef struct hashtable_node_t {
 
 typedef struct hashtable_t {
 	u32 bucketCount;
-	DArr **buckets;
+	Vector **buckets;
 } HashTable;
 
 HashTable *hashtable_new(u32 buckets);

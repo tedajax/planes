@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "types.h"
-#include "dynarr.h"
+#include "vector.h"
 #include "queue.h"
 
 struct entity_t;
@@ -17,7 +17,7 @@ typedef enum entity_manager_add_mode_t {
 typedef struct entity_manager_t {
 	u32 currentId;
 	AddMode addMode;
-	DArr *entities;
+	Vector *entities;
 	Queue *addQueue;
 	Queue *removeQueue;
 } EntityManager;

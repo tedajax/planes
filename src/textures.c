@@ -29,7 +29,7 @@ void textures_loadRMap(ResourceMap *rmap) {
 	assert(rmap);
 
 	for (int i = 0; i < rmap->resources->size; ++i) {
-		RMapNode *node = darr_index(rmap->resources, i);
+		RMapNode *node = vector_index(rmap->resources, i);
 
 		SDL_Texture *tex = texture_load(node->value);
 		if (tex) {

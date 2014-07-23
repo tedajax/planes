@@ -8,14 +8,14 @@
 #include "globals.h"
 #include "algebra.h"
 #include "components.h"
-#include "dynarr.h"
+#include "vector.h"
 
 typedef struct entity_t {
 	i32 id;
 	bool enabled;
 	bool destroy;
 	CTransform *transform;
-	DArr *components;
+	Vector *components;
 } Entity;
 
 Entity *entity_new();

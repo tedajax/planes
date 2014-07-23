@@ -1,35 +1,35 @@
-#include "dynarr.h"
+#include "vector.h"
 
-DArr *darr_new(u32 capacity) {
-	DArr *self = (DArr *)malloc(sizeof(DArr));
+Vector *vector_new(u32 capacity) {
+	Vector *self = (Vector *)malloc(sizeof(Vector));
 
 	self->size = 0;
 	self->freeFunc = NULL;
 	self->data = NULL;
-	_darr_resize(self, capacity);
+	_vector_resize(self, capacity);
 
 	return self;
 }
 
-void darr_setFreeFunc(DArr *self, free_func freeFunc) {
+void vector_setFreeFunc(Vector *self, free_func freeFunc) {
 	assert(self);
 	assert(freeFunc);
 	self->freeFunc = freeFunc;
 }
 
-void darr_add(DArr *self, void *element) {
+void vector_add(Vector *self, void *element) {
 	assert(self);
 	assert(element);
 
 	if (self->size >= self->capacity) {
-		_darr_resize(self, self->capacity * 2);
+		_vector_resize(self, self->capacity * 2);
 	}
 
 	self->data[self->size] = element;
 	++self->size;
 }
 
-void *darr_index(DArr *self, u32 index) {
+void *vector_index(Vector *self, u32 index) {
 	assert(self);
 
 	if (index >= self->size) {
@@ -39,20 +39,20 @@ void *darr_index(DArr *self, u32 index) {
 	return self->data[index];
 }
 
-bool darr_remove(DArr *self, void *element) {
+bool vector_remove(Vector *self, void *element) {
 	assert(self);
 	assert(element);
 
 	for (int i = 0; i < self->size; ++i) {
 		if (self->data[i] == element) {
-			return darr_removeAt(self, i);;
+			return vector_removeAt(self, i);;
 		}
 	}
 
 	return false;
 }
 
-bool darr_removeAt(DArr *self, u32 index) {
+bool vector_removeAt(Vector *self, u32 index) {
 	assert(self);
 
 	if (index >= self->size) {
@@ -76,7 +76,7 @@ bool darr_removeAt(DArr *self, u32 index) {
 	return true;
 }
 
-void _darr_resize(DArr *self, u32 capacity) {
+void _vector_resize(Vector *self, u32 capacity) {
 	assert(self);
 
 	if (capacity <= self->size) {

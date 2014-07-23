@@ -4,7 +4,7 @@ HashTable *hashtable_new(u32 buckets) {
 	HashTable *self = (HashTable *)malloc(sizeof(HashTable));
 
 	self->bucketCount = buckets;
-	self->buckets = (DArr **)malloc(sizeof(DArr *) * buckets);
+	self->buckets = (Vector **)malloc(sizeof(Vector *) * buckets);
 
 	for (u32 i = 0; i < self->bucketCount; ++i) {
 		self->buckets[i] = NULL;
@@ -20,17 +20,17 @@ bool hashtable_insert(HashTable *self, const char *key, void *data) {
 
 	u64 hash = _hashtable_djb2(key);
 	u32 index = _hashtable_index(self, key);
-	DArr *bucket = NULL;
+	Vector *bucket = NULL;
 
 	if (!self->buckets[index]) {
-		self->buckets[index] = darr_new(8);
+		self->buckets[index] = vector_new(8);
 	}
 
 	bucket = self->buckets[index];
 
 	//search for the key in the bucket and if we find it return false
 	for (u32 i = 0; i < bucket->size; ++i) {
-		void *pkvp = darr_index(bucket, i);
+		void *pkvp = vector_index(bucket, i);
 
 		HashTableNode *kvp = (HashTableNode *)pkvp;
 		if (kvp->key == hash) {
@@ -43,7 +43,7 @@ bool hashtable_insert(HashTable *self, const char *key, void *data) {
 	HashTableNode *kvp = (HashTableNode *)malloc(sizeof(HashTableNode));
 	kvp->key = hash;
 	kvp->value = data;
-	darr_add(bucket, kvp);
+	vector_add(bucket, kvp);
 
 	return true;
 }
@@ -54,14 +54,14 @@ void *hashtable_get(HashTable *self, const char *key) {
 
 	u64 hash = _hashtable_djb2(key);
 	u32 index = _hashtable_index(self, key);
-	DArr *bucket = self->buckets[index];
+	Vector *bucket = self->buckets[index];
 
 	if (!bucket) {
 		return NULL;
 	}
 
 	for (u32 i = 0; i < bucket->size; ++i) {
-		void *pkvp = darr_index(bucket, i);
+		void *pkvp = vector_index(bucket, i);
 		HashTableNode *kvp = (HashTableNode *)pkvp;
 		if (kvp->key == hash) {
 			return kvp->value;
@@ -77,18 +77,18 @@ void *hashtable_remove(HashTable *self, const char *key) {
 
 	u64 hash = _hashtable_djb2(key);
 	u32 index = _hashtable_index(self, key);
-	DArr *bucket = self->buckets[index];
+	Vector *bucket = self->buckets[index];
 
 	if (!bucket) {
 		return NULL;
 	}
 
 	for (u32 i = 0; i < bucket->size; ++i) {
-		void *pkvp = darr_index(bucket, i);
+		void *pkvp = vector_index(bucket, i);
 		HashTableNode *kvp = (HashTableNode *)pkvp;
 		if (kvp->key == hash) {
 			void *presult = kvp->value;
-			darr_removeAt(bucket, i);
+			vector_removeAt(bucket, i);
 			return presult;
 		}
 	}

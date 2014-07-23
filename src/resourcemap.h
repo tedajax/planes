@@ -6,7 +6,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "dynarr.h"
+#include "vector.h"
 
 typedef struct resource_map_node_t {
 	char *key;
@@ -15,7 +15,7 @@ typedef struct resource_map_node_t {
 
 typedef struct resource_map_t {
 	char *filename;
-	DArr *resources;
+	Vector *resources;
 } ResourceMap;
 
 extern size_t MAX_RESOURCE_KEY_LENGTH;

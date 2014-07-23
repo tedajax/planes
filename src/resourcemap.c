@@ -7,7 +7,7 @@ ResourceMap *resourceMap_new(char* filename) {
 	ResourceMap *newRMap = (ResourceMap *)malloc(sizeof(ResourceMap));
 
 	newRMap->filename = filename;
-	newRMap->resources = darr_new(16);
+	newRMap->resources = vector_new(16);
 
 	return newRMap;
 }
@@ -36,7 +36,7 @@ void resourceMap_load(ResourceMap *self) {
 		strcpy(node->key, keyBuffer);
 		strcpy(node->value, valueBuffer);
 
-		darr_add(self->resources, node);
+		vector_add(self->resources, node);
 	}
 
 	fclose(inFile);
@@ -44,7 +44,7 @@ void resourceMap_load(ResourceMap *self) {
 
 void resourceMap_free(ResourceMap *self) {
 	for (int i = 0; i < self->resources->size; ++i) {
-		RMapNode *node = (RMapNode *)darr_index(self->resources, i);
+		RMapNode *node = (RMapNode *)vector_index(self->resources, i);
 		free(node->key);
 		free(node->value);
 		node->key = NULL;
